@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/navigation_drawer_items">
+        <item
+            android:id="@+id/select_trades"
+            android:checkable="false"
+            android:title="@string/title_activity_trades"
+            app:showAsAction="withText" />
+        <item
+            android:id="@+id/select_trade_history"
+            android:checkable="false"
+            android:title="@string/title_activity_trade_history"
+            app:showAsAction="withText" />
+        <item
+            android:id="@+id/select_send_trade"
+            android:checkable="false"
+            android:title="@string/title_activity_send_trade"
+            app:showAsAction="withText" />
+        <item
+            android:id="@+id/select_trade_url"
+            android:checkable="false"
+            android:title="@string/title_activity_trade_url"
+            app:showAsAction="withText" />
+        <item
+            android:id="@+id/select_logout"
+            android:checkable="false"
+            android:title="@string/title_activity_logout" />
+    </group>
+</menu>
