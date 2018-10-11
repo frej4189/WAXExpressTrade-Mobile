@@ -12,6 +12,7 @@ import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -1570,14 +1572,36 @@ public class RequestUtils {
                 } else if(error.networkResponse.statusCode == 400) {
                     try {
                         JSONObject json = new JSONObject(new String(error.networkResponse.data));
-                        if(json.getString("error").equals("invalid_grant")) {
+                        if(json.has("error") && json.getString("error").equals("invalid_grant")) {
                             FileUtils.writeData(context, "access.txt", "", true);
                             return;
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);

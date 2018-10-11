@@ -343,7 +343,7 @@ public class TradeActivity extends AppCompatActivity {
                     cancel.setOnClickListener(new Button.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(shouldReact())
+                            if(!shouldReact())
                                 return;
                             react(false);
                             RequestUtils.cancelOffer(ctx, offerid, true);
@@ -360,7 +360,7 @@ public class TradeActivity extends AppCompatActivity {
                     accept.setOnClickListener(new Button.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(shouldReact())
+                            if(!shouldReact())
                                 return;
                             AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
                             builder.setTitle("2FA Code");
@@ -399,7 +399,7 @@ public class TradeActivity extends AppCompatActivity {
                     decline.setOnClickListener(new Button.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(shouldReact())
+                            if(!shouldReact())
                                 return;
                             react(false);
                             RequestUtils.cancelOffer(ctx, offerid, false);
