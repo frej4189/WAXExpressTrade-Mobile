@@ -379,7 +379,44 @@ public class RequestUtils {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
+                                }
 
+                                try {
+                                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                        return;
+                                    } else if(errorResponse.has("message")) {
+                                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
                                 }
                                 Intent intent = new Intent(context, MainActivity.class);
                                 context.startActivity(intent);
@@ -417,7 +454,43 @@ public class RequestUtils {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
@@ -506,7 +579,43 @@ public class RequestUtils {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-
+                                }
+                                try {
+                                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                        return;
+                                    } else if(errorResponse.has("message")) {
+                                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
                                 }
                                 Intent intent = new Intent(context, MainActivity.class);
                                 context.startActivity(intent);
@@ -545,6 +654,43 @@ public class RequestUtils {
                         e.printStackTrace();
                     }
 
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
@@ -734,6 +880,43 @@ public class RequestUtils {
                                     }
 
                                 }
+                                try {
+                                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                        return;
+                                    } else if(errorResponse.has("message")) {
+                                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
                                 Intent intent = new Intent(context, MainActivity.class);
                                 context.startActivity(intent);
                             }
@@ -771,6 +954,43 @@ public class RequestUtils {
                         e.printStackTrace();
                     }
 
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
@@ -861,6 +1081,43 @@ public class RequestUtils {
                                     }
 
                                 }
+                                try {
+                                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                        return;
+                                    } else if(errorResponse.has("message")) {
+                                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
                                 Intent intent = new Intent(context, MainActivity.class);
                                 context.startActivity(intent);
                             }
@@ -898,6 +1155,43 @@ public class RequestUtils {
                         e.printStackTrace();
                     }
 
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
@@ -963,6 +1257,43 @@ public class RequestUtils {
                         e.printStackTrace();
                     }
 
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
@@ -1135,6 +1466,43 @@ public class RequestUtils {
                                     }
 
                                 }
+                                try {
+                                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                        return;
+                                    } else if(errorResponse.has("message")) {
+                                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
                                 Intent intent = new Intent(context, MainActivity.class);
                                 context.startActivity(intent);
                             }
@@ -1215,6 +1583,43 @@ public class RequestUtils {
                                                     }
 
                                                 }
+                                                try {
+                                                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                                                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                                                        new Thread() {
+                                                            @Override
+                                                            public void run() {
+                                                                try {
+                                                                    Thread.sleep(2000);
+                                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                                    context.startActivity(trades);
+                                                                } catch(Exception e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                        }.start();
+                                                        return;
+                                                    } else if(errorResponse.has("message")) {
+                                                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                                        new Thread() {
+                                                            @Override
+                                                            public void run() {
+                                                                try {
+                                                                    Thread.sleep(2000);
+                                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                                    context.startActivity(trades);
+                                                                } catch(Exception e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                        }.start();
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                } catch (UnsupportedEncodingException e) {
+                                                    e.printStackTrace();
+                                                }
                                                 Intent intent = new Intent(context, MainActivity.class);
                                                 context.startActivity(intent);
                                             }
@@ -1253,6 +1658,43 @@ public class RequestUtils {
                                         e.printStackTrace();
                                     }
 
+                                }
+                                try {
+                                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                        return;
+                                    } else if(errorResponse.has("message")) {
+                                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
                                 }
                                 Intent intent = new Intent(context, MainActivity.class);
                                 context.startActivity(intent);
@@ -1299,6 +1741,43 @@ public class RequestUtils {
                         e.printStackTrace();
                     }
 
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
@@ -1401,6 +1880,43 @@ public class RequestUtils {
                                     }
 
                                 }
+                                try {
+                                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                        return;
+                                    } else if(errorResponse.has("message")) {
+                                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
                                 Intent intent = new Intent(context, MainActivity.class);
                                 context.startActivity(intent);
                             }
@@ -1438,6 +1954,43 @@ public class RequestUtils {
                         e.printStackTrace();
                     }
 
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
@@ -1507,6 +2060,43 @@ public class RequestUtils {
                         e.printStackTrace();
                     }
 
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
@@ -1598,6 +2188,20 @@ public class RequestUtils {
                             }
                         }.start();
                         return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
                     }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -1647,6 +2251,43 @@ public class RequestUtils {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //TODO: Redirect to error activity
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
             }
@@ -1706,6 +2347,43 @@ public class RequestUtils {
                         e.printStackTrace();
                     }
 
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
@@ -1849,6 +2527,43 @@ public class RequestUtils {
                         e.printStackTrace();
                     }
 
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
