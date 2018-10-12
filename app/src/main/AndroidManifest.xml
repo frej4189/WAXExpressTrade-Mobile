@@ -58,7 +58,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SendTradeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".TradeActivity"
             android:screenOrientation="portrait" />

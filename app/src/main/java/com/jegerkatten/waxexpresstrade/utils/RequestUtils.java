@@ -44,11 +44,11 @@ import java.util.Map;
 
 public class RequestUtils {
 
-    private static boolean refreshProgress = false;
+    static boolean refreshProgress = false;
 
-    private static int uid = -1;
+    static int uid = -1;
 
-    private static void setUserID(int id) {
+    static void setUserID(int id) {
         uid = id;
     }
 
@@ -211,16 +211,16 @@ public class RequestUtils {
     private static int incomingTradesMax = 0;
     private static int incomingTradesDone = 0;
 
-    private static boolean isDoneIncomingTrades() {
+    static boolean isDoneIncomingTrades() {
         incomingTradesDone++;
         return incomingTradesMax == incomingTradesDone;
     }
 
-    private static void setMaxIncomingTrades(int incomingTrades) {
+    static void setMaxIncomingTrades(int incomingTrades) {
         incomingTradesMax = incomingTrades;
     }
 
-    private static void displayIncomingTrades(View view, JSONArray offers) throws JSONException {
+    static void displayIncomingTrades(View view, JSONArray offers) throws JSONException {
         final Context context = view.getContext();
         LinearLayout layout = view.findViewById(R.id.linear_main);
         if(layout == null) {
@@ -564,16 +564,16 @@ public class RequestUtils {
     private static int sentTradesMax = 0;
     private static int sentTradesDone = 0;
 
-    private static boolean isDoneSentTrades() {
+    static boolean isDoneSentTrades() {
         sentTradesDone++;
         return sentTradesMax == sentTradesDone;
     }
 
-    private static void setMaxSentTrades(int incomingTrades) {
+    static void setMaxSentTrades(int incomingTrades) {
         incomingTradesMax = incomingTrades;
     }
 
-    private static void displaySentTrades(View view, JSONArray offers) throws JSONException {
+    static void displaySentTrades(View view, JSONArray offers) throws JSONException {
         final Context context = view.getContext();
         LinearLayout layout = view.findViewById(R.id.linear_main);
         if(layout == null) {
@@ -971,7 +971,7 @@ public class RequestUtils {
         Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
     }
 
-    private static void displayItemPick(final LinearLayout view, final JSONObject user, final JSONArray items) {
+    static void displayItemPick(final LinearLayout view, final JSONObject user, final JSONArray items) {
         final Context ctx = view.getContext();
         try {
             LinearLayout info = new LinearLayout(ctx);
@@ -1454,7 +1454,7 @@ public class RequestUtils {
         Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
     }
 
-    private static void updateBearerForDisplay(final Context context, final String refresh, final String type, final View view) {
+    static void updateBearerForDisplay(final Context context, final String refresh, final String type, final View view) {
         String url = "https://oauth.opskins.com/v1/access_token/";
 
         refreshProgress = true;
@@ -1580,6 +1580,7 @@ public class RequestUtils {
                         e.printStackTrace();
                     }
                 }
+
                 try {
                     JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
                     if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
@@ -1728,7 +1729,7 @@ public class RequestUtils {
         Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
     }
 
-    private static void updateBearerForAcceptOffer(final Context context, final String refresh, final int offerid, final String two_factor_code) {
+    static void updateBearerForAcceptOffer(final Context context, final String refresh, final int offerid, final String two_factor_code) {
         String url = "https://oauth.opskins.com/v1/access_token/";
 
         refreshProgress = true;
@@ -1870,7 +1871,7 @@ public class RequestUtils {
         Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
     }
 
-    private static void updateBearerForCancelOffer(final Context context, final String refresh, final int offerid, final boolean cancel) {
+    static void updateBearerForCancelOffer(final Context context, final String refresh, final int offerid, final boolean cancel) {
         String url = "https://oauth.opskins.com/v1/access_token/";
 
         refreshProgress = true;
@@ -1946,7 +1947,7 @@ public class RequestUtils {
         Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
     }
 
-    private static void updateBearerForMakeOffer(final Context context, final String refresh, final String tradeURL, final String two_factor_code, final String message, final String items_to_send, final String items_to_receive) {
+    static void updateBearerForMakeOffer(final Context context, final String refresh, final String tradeURL, final String two_factor_code, final String message, final String items_to_send, final String items_to_receive) {
         String url = "https://oauth.opskins.com/v1/access_token/";
 
         refreshProgress = true;
@@ -2022,7 +2023,7 @@ public class RequestUtils {
         Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
     }
 
-    private static void updateBearerForDisplay(final Context context, final String refresh, final LinearLayout view, final String app_id, final String uid, final ArrayList<String> exclude) {
+    static void updateBearerForDisplay(final Context context, final String refresh, final LinearLayout view, final String app_id, final String uid, final ArrayList<String> exclude) {
         String url = "https://oauth.opskins.com/v1/access_token/";
 
         refreshProgress = true;
@@ -2177,7 +2178,7 @@ public class RequestUtils {
         Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
     }
 
-    private static void updateBearerForGet(final Context context, final String refresh, final String type) {
+    static void updateBearerForGet(final Context context, final String refresh, final String type) {
         String url = "https://oauth.opskins.com/v1/access_token/";
 
         refreshProgress = true;

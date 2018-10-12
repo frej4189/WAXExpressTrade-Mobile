@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +35,7 @@ public class SelectItemsActivity extends AppCompatActivity {
     private String uid = "-1";
 
     private SelectItemsPagerAdapter adapter;
-    private Map<Integer, RefreshListener> refreshers = null;
+    private SparseArray<RefreshListener> refreshers = null;
     private ArrayList<String> items;
 
     public RefreshListener getRefreshListener(int appid) {
@@ -43,7 +44,7 @@ public class SelectItemsActivity extends AppCompatActivity {
 
     public void addRefreshListener(int appid, RefreshListener refreshListener) {
         if(refreshers == null) {
-            refreshers = new HashMap<Integer, RefreshListener>();
+            refreshers = new SparseArray<RefreshListener>();
         }
         refreshers.put(appid, refreshListener);
     }
@@ -138,9 +139,8 @@ public class SelectItemsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.update:
                 if(refreshers != null) {
-                    Collection<RefreshListener> refresh = refreshers.values();
-                    for(int i = 0; i < refresh.size(); i++) {
-                        ((RefreshListener)refresh.toArray()[i]).onRefresh();
+                    for(int i = 0; i < refreshers.size(); i++) {
+                        refreshers.get(i).onRefresh();
                     }
                 }
                 return true;

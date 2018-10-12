@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,12 +15,12 @@ public class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
 
     private static Map<String, Bitmap> downloaded = new HashMap<String, Bitmap>();
 
-    ImageView bmImage;
+    private WeakReference<ImageView> bmImage;
     int width;
     int height;
 
     public ImageDownloader(ImageView bmImage, int width, int height) {
-        this.bmImage = bmImage;
+        this.bmImage = new WeakReference<ImageView>(bmImage);
         this.width = width;
         this.height = height;
     }
@@ -42,7 +43,9 @@ public class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
     }
 
     protected void onPostExecute(Bitmap result) {
-        bmImage.setImageBitmap(result);
+        if(bmImage.get() != null) {
+            bmImage.get().setImageBitmap(result);
+        }
     }
 
 }

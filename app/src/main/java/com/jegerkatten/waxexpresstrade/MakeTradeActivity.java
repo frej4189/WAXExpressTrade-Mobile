@@ -33,20 +33,20 @@ import java.util.ArrayList;
 
 public class MakeTradeActivity extends AppCompatActivity {
 
-    private DrawerLayout drawer;
-    private ActionBarDrawerToggle drawerToggle;
-    private NavigationView drawerItems;
-    private final Context ctx = this;
+    DrawerLayout drawer;
+    ActionBarDrawerToggle drawerToggle;
+    NavigationView drawerItems;
+    final Context ctx = this;
 
     private LinearLayout layout;
     private LinearLayout send;
 
-    private int uid;
-    private int uidMy;
-    private String tradeURL;
+    int uid;
+    int uidMy;
+    String tradeURL;
 
-    private ArrayList<String> myItems;
-    private ArrayList<String> theirItems;
+    ArrayList<String> myItems;
+    ArrayList<String> theirItems;
     private LinearLayout myItemsLayout;
     private LinearLayout theirItemsLayout;
 

@@ -31,8 +31,8 @@ import java.util.Hashtable;
 
 public class TradeURLActivity extends AppCompatActivity {
 
-    private DrawerLayout drawer;
-    private final Context ctx = this;
+    DrawerLayout drawer;
+    final Context ctx = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

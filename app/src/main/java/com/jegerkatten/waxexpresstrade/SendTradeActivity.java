@@ -26,10 +26,10 @@ import com.jegerkatten.waxexpresstrade.utils.StringUtils;
 
 public class SendTradeActivity extends AppCompatActivity {
 
-    private DrawerLayout drawer;
-    private ActionBarDrawerToggle drawerToggle;
-    private NavigationView drawerItems;
-    private final Context ctx = this;
+    DrawerLayout drawer;
+    ActionBarDrawerToggle drawerToggle;
+    NavigationView drawerItems;
+    final Context ctx = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

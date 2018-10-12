@@ -33,10 +33,10 @@ import org.json.JSONObject;
 
 public class TradeActivity extends AppCompatActivity {
 
-    private DrawerLayout drawer;
-    private ActionBarDrawerToggle drawerToggle;
-    private NavigationView drawerItems;
-    private final Context ctx = this;
+    DrawerLayout drawer;
+    ActionBarDrawerToggle drawerToggle;
+    NavigationView drawerItems;
+    final Context ctx = this;
 
     private boolean shouldReact = true;
 
