@@ -36,6 +36,27 @@ public class SendTradeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_trade);
 
+        if(getIntent().getAction() == "android.intent.action.VIEW") {
+            final int uid = StringUtils.getUserID(getIntent().getData().toString());
+            int user = RequestUtils.getUserID(this);
+
+            if(uid >= 0 && uid != user) {
+                Intent intent = new Intent(this, MakeTradeActivity.class);
+                intent.putExtra("EXTRA_USER_ID", Integer.toString(uid));
+                intent.putExtra("EXTRA_TRADE_URL", getIntent().getData().toString());
+                startActivity(intent);
+                finish();
+                return;
+            } else if(uid == user) {
+                Toast.makeText(ctx, "You cannot trade with yourself.", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        }
+
         Toolbar appbar = findViewById(R.id.trades_appbar);
         appbar.setTitle(R.string.title_activity_send_trade);
         appbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);

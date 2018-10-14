@@ -59,6 +59,17 @@
         <activity
             android:name=".SendTradeActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="trade.opskins.com"
+                    android:pathPrefix=""/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".TradeActivity"
