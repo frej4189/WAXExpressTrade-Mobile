@@ -58,12 +58,27 @@ public class RemoveItemActivity extends AppCompatActivity {
                 inOffer.setOrientation(LinearLayout.HORIZONTAL);
                 ImageView warning = new ImageView(this);
                 warning.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_priority_high_white_24dp, null));
-                warning.setBackgroundColor(Color.parseColor("#dc3545"));
+                inOffer.setBackgroundColor(Color.parseColor("#dc3545"));
                 TextView inOfferText = new TextView(this);
                 inOfferText.setText(R.string.in_offer);
+                inOffer.setGravity(Gravity.CENTER_HORIZONTAL);
                 inOffer.addView(warning);
                 inOffer.addView(inOfferText);
                 layout.addView(inOffer);
+            }
+            if(item.has("trade_hold_expires") && item.get("trade_hold_expires") != null && item.get("trade_hold_expires").getClass().getName() == "java.lang.Integer") {
+                LinearLayout tradehold = new LinearLayout(this);
+                tradehold.setOrientation(LinearLayout.HORIZONTAL);
+                ImageView warning = new ImageView(this);
+                warning.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_priority_high_white_24dp, null));
+                tradehold.setBackgroundColor(Color.parseColor("#dc3545"));
+                TextView tradeholdText = new TextView(this);
+                tradeholdText.setText(R.string.on_trade_hold);
+                tradeholdText.setTextSize(12);
+                tradehold.setGravity(Gravity.CENTER_HORIZONTAL);
+                tradehold.addView(warning);
+                tradehold.addView(tradeholdText);
+                layout.addView(tradehold);
             }
             TextView name = new TextView(this);
             name.setText(item.getString("name"));
@@ -75,6 +90,11 @@ public class RemoveItemActivity extends AppCompatActivity {
                 wear.setGravity(Gravity.CENTER_HORIZONTAL);
                 layout.addView(wear);
             }
+            TextView price = new TextView(this);
+            double usdprice = ((double)item.getInt("suggested_price")) / 100.0;
+            price.setText(getResources().getString(R.string.price, Double.toString(usdprice)));
+            price.setGravity(Gravity.CENTER_HORIZONTAL);
+            layout.addView(price);
             Button remove = new Button(this);
             remove.setBackgroundColor(Color.parseColor("#007bff"));
             remove.setText(R.string.remove_item);
