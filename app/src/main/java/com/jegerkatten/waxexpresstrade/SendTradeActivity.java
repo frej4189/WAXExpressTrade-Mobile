@@ -36,7 +36,7 @@ public class SendTradeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_trade);
 
-        if(getIntent().getAction() == "android.intent.action.VIEW") {
+        if(getIntent() != null && getIntent().getAction() == "android.intent.action.VIEW") {
             final int uid = StringUtils.getUserID(getIntent().getData().toString());
             int user = RequestUtils.getUserID(this);
 
@@ -122,7 +122,7 @@ public class SendTradeActivity extends AppCompatActivity {
         android.content.ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData clipData = clipboard.getPrimaryClip();
 
-        if(clipData.getItemCount() > 0) {
+        if(clipData != null && clipData.getItemCount() > 0) {
             ClipData.Item item = clipData.getItemAt(0);
             final String paste = String.valueOf(item.getText());
             final int uid = StringUtils.getUserID(paste);
