@@ -66,20 +66,6 @@ public class ItemActivity extends AppCompatActivity {
                 inOffer.addView(inOfferText);
                 layout.addView(inOffer);
             }
-            if(item.has("trade_hold_expires") && item.get("trade_hold_expires") != null && item.get("trade_hold_expires").getClass().getName() == "java.lang.Integer") {
-                LinearLayout tradehold = new LinearLayout(this);
-                tradehold.setOrientation(LinearLayout.HORIZONTAL);
-                ImageView warning = new ImageView(this);
-                warning.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_priority_high_white_24dp, null));
-                tradehold.setBackgroundColor(Color.parseColor("#dc3545"));
-                TextView tradeholdText = new TextView(this);
-                tradeholdText.setText(R.string.on_trade_hold);
-                tradeholdText.setTextSize(12);
-                tradehold.setGravity(Gravity.CENTER_HORIZONTAL);
-                tradehold.addView(warning);
-                tradehold.addView(tradeholdText);
-                layout.addView(tradehold);
-            }
             TextView name = new TextView(this);
             name.setText(item.getString("name"));
             name.setGravity(Gravity.CENTER_HORIZONTAL);

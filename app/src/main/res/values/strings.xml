@@ -43,7 +43,6 @@
     <string name="add_items">Add items</string>
     <string name="twofa_placeholder">123456</string>
     <string name="in_offer">This item is currently in an offer.</string>
-    <string name="on_trade_hold">This item is currently on a tradehold.</string>
     <string name="add_item">Add item</string>
     <string name="remove_item">Remove item</string>
     <string name="wear">Wear: %1$s</string>
