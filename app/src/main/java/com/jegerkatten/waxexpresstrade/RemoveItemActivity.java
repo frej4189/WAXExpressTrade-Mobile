@@ -66,10 +66,15 @@ public class RemoveItemActivity extends AppCompatActivity {
                 inOffer.addView(inOfferText);
                 layout.addView(inOffer);
             }
+            String[] nameBits = item.getString("name").split("\\(");
             TextView name = new TextView(this);
-            name.setText(item.getString("name"));
+            name.setText(nameBits[0]);
             name.setGravity(Gravity.CENTER_HORIZONTAL);
             layout.addView(name);
+            TextView condition = new TextView(this);
+            condition.setText(nameBits[1].split("\\)")[0]);
+            condition.setGravity(Gravity.CENTER_HORIZONTAL);
+            layout.addView(condition);
             if(item.has("wear")) {
                 TextView wear = new TextView(this);
                 wear.setText(getResources().getString(R.string.wear, item.get("wear").toString()));

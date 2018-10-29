@@ -90,9 +90,6 @@ public class ItemActivity extends AppCompatActivity {
             layout.addView(price);
             Button add = new Button(this);
             add.setBackgroundColor(Color.parseColor("#007bff"));
-            LinearLayout.LayoutParams addParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            add.setLayoutParams(addParams);
-            add.setPadding(100, 50, 100, 50);
             add.setGravity(Gravity.CENTER_HORIZONTAL);
             add.setOnClickListener(new Button.OnClickListener() {
                 @Override
