@@ -1331,7 +1331,7 @@ public class RequestUtils {
                     JSONObject json = new JSONObject(response);
                     JSONObject res = json.getJSONObject("response");
                     if(user.equals("/OPSkins:" + res.getString("username")) || user.equals("manual")) {
-                        FileUtils.writeData(context, "twofa.txt", secret + "\n" + res.getString("username"), "2FA Enabled.");
+                        FileUtils.writeData(context, "twofa.txt", secret + "\n" + res.getString("username"), "Generator enabled - Finish setup on OPSkins account page.");
                     } else {
                         Toast.makeText(context, R.string.qr_mismatch, Toast.LENGTH_SHORT).show();
                         new Thread() {
