@@ -86,7 +86,7 @@ public class SelectItemsActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(2000);
+                        this.sleep(2500);
                         startActivity(sendTrade);
                         finish();
                     } catch(Exception e) {
@@ -105,7 +105,7 @@ public class SelectItemsActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(2000);
+                        this.sleep(2500);
                         startActivity(sendTrade);
                         finish();
                     } catch(Exception e) {

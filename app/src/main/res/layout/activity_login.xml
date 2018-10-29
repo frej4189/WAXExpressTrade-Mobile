@@ -41,4 +41,58 @@
         app:layout_constraintTop_toBottomOf="@+id/bannerLogo"
         app:srcCompat="@drawable/loginbtn" />
 
+    <ProgressBar
+        android:id="@+id/login_2fa_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginRight="130dp"
+        android:layout_marginBottom="137dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_user_view" />
+
+    <TextView
+        android:id="@+id/login_2fa_display"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_marginStart="154dp"
+        android:layout_marginLeft="154dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="154dp"
+        android:layout_marginRight="154dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:text="000000"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/login_user_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+
+    <TextView
+        android:id="@+id/login_user_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="176dp"
+        android:layout_marginLeft="176dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="175dp"
+        android:layout_marginRight="175dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/loading_text"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/login_2fa_progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_2fa_display" />
+
 </android.support.constraint.ConstraintLayout>

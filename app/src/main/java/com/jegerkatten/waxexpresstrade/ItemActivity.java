@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +32,7 @@ public class ItemActivity extends AppCompatActivity {
         try {
             final JSONObject item = new JSONObject(getIntent().getStringExtra("item"));
             LinearLayout layout = findViewById(R.id.item_layout);
+            layout.setMinimumWidth(600);
             ImageView close = new ImageView(this);
             close.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_close_white_24dp, null));
             LinearLayout.LayoutParams closeParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -50,7 +52,7 @@ public class ItemActivity extends AppCompatActivity {
             LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             imgParams.leftMargin = 10;
             imgParams.rightMargin = 10;
-            new ImageDownloader(img, (int)Math.floor((metrics.widthPixels - 20) / 300) * 300, (int)Math.floor((metrics.widthPixels - 20) / 300) * 300).execute(item.getJSONObject("image").getString("600px"));
+            new ImageDownloader(img, 600, 600).execute(item.getJSONObject("image").getString("600px"));
             img.setLayoutParams(imgParams);
             layout.addView(img);
             if(item.has("in_offer") && item.getBoolean("in_offer")) {
@@ -66,10 +68,15 @@ public class ItemActivity extends AppCompatActivity {
                 inOffer.addView(inOfferText);
                 layout.addView(inOffer);
             }
+            String[] nameBits = item.getString("name").split("\\(");
             TextView name = new TextView(this);
-            name.setText(item.getString("name"));
+            name.setText(nameBits[0]);
             name.setGravity(Gravity.CENTER_HORIZONTAL);
             layout.addView(name);
+            TextView condition = new TextView(this);
+            condition.setText(nameBits[1].split("\\)")[0]);
+            condition.setGravity(Gravity.CENTER_HORIZONTAL);
+            layout.addView(condition);
             if(item.has("wear")) {
                 TextView wear = new TextView(this);
                 wear.setText(getResources().getString(R.string.wear, item.get("wear").toString()));
@@ -83,7 +90,9 @@ public class ItemActivity extends AppCompatActivity {
             layout.addView(price);
             Button add = new Button(this);
             add.setBackgroundColor(Color.parseColor("#007bff"));
-            add.setText(R.string.add_item);
+            LinearLayout.LayoutParams addParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            add.setLayoutParams(addParams);
+            add.setPadding(100, 50, 100, 50);
             add.setGravity(Gravity.CENTER_HORIZONTAL);
             add.setOnClickListener(new Button.OnClickListener() {
                 @Override
@@ -94,6 +103,8 @@ public class ItemActivity extends AppCompatActivity {
                     finish();
                 }
             });
+            add.setText(R.string.add_item);
+            add.setTextSize(14);
             layout.addView(add);
         } catch (JSONException e) {
             e.printStackTrace();

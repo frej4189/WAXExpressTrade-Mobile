@@ -24,6 +24,10 @@
             android:title="@string/title_activity_trade_url"
             app:showAsAction="withText" />
         <item
+            android:id="@+id/select_2fa"
+            android:checkable="false"
+            android:title="@string/title_activity_2fa" />
+        <item
             android:id="@+id/select_logout"
             android:checkable="false"
             android:title="@string/title_activity_logout" />

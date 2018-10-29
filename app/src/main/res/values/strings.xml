@@ -11,6 +11,8 @@
     <string name="title_activity_trade_url">Trade URL</string>
     <string name="title_activity_logout">Log out</string>
     <string name="title_activity_select_items">Select items</string>
+    <string name="title_activity_setup_2fa">Setup 2FA</string>
+    <string name="title_activity_2fa">2FA</string>
     <string name="category_button_description">Categories</string>
     <string name="loading_trades_text">Loading your trades…</string>
     <string name="no_trades_title">No outstanding trades</string>
@@ -32,12 +34,13 @@
     <string name="them_name">%1$s (Them), %2$s item(s):</string>
     <string name="you_name">%1$s (You), %2$s item(s):</string>
     <string name="name">%1$s, %2$s item(s):</string>
+    <string name="username">%1$s</string>
     <string name="no_items">No items.</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
     <string name="cancel">Cancel</string>
     <string name="send_offer">Send offer</string>
-    <string name="message_guide">Message: </string>
+    <string name="message_guide">Message (Optional): </string>
     <string name="twofa_guide">2FA Code: </string>
     <string name="message_placeholder">This is an offer you can\'t refuse</string>
     <string name="add_items">Add items</string>
@@ -47,5 +50,15 @@
     <string name="remove_item">Remove item</string>
     <string name="wear">Wear: %1$s</string>
     <string name="price">Suggested Price: \$%1$s</string>
+    <string name="setup_2fa_guide1">This app can control your 2FA codes for you.</string>
+    <string name="setup_2fa_guide2">To do this, first disable 2FA on your OPSkins account page.</string>
+    <string name="setup_2fa_guide3">When that is done, enable 2FA again, and follow the instructions until you see a QR Code.</string>
+    <string name="setup_2fa_guide4">Then, select whether you want to scan the QR code or enter the key code.</string>
+    <string name="setup_2fa_button">Scan QR Code</string>
+    <string name="setup_2fa_secret_placeholder">ABCD 1234 EFGH 5678</string>
+    <string name="setup_2fa_secret_next">Enter key code</string>
+    <string name="disable_2fa">Disable 2FA</string>
+    <string name="qr_mismatch">Scanned QR code is for another account.</string>
+    <string name="action_failed">Action failed, please try again.</string>
     <string name="title_activity_launcher">LauncherActivity</string>
 </resources>

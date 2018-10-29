@@ -7,10 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.support.design.widget.NavigationView;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -36,11 +42,20 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 public class RequestUtils {
 
@@ -389,7 +404,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -404,7 +419,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -463,7 +478,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -478,7 +493,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -588,7 +603,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -603,7 +618,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -663,7 +678,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -678,7 +693,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -888,7 +903,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -903,7 +918,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -963,7 +978,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -978,7 +993,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -1089,7 +1104,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -1104,7 +1119,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -1164,7 +1179,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -1179,7 +1194,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -1243,8 +1258,7 @@ public class RequestUtils {
             public void onErrorResponse(VolleyError error) {
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
-                    //Not logged in, or invalid refresh token, either way, make the user re-log.
-                    FileUtils.writeData(context, "access.txt", "", true);
+                    //wat
                     return;
                 } else if(error.networkResponse.statusCode == 400) {
                     try {
@@ -1266,7 +1280,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -1281,7 +1295,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -1299,6 +1313,215 @@ public class RequestUtils {
                 context.startActivity(intent);
             }
         });
+        Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
+    }
+
+    public static void addTwoFactor(final Context context, final String user, final String secret) {
+        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+            updateBearerForAddTwoFactor(context, FileUtils.getRefresh(context), user, secret);
+            return;
+        }
+
+        final String url = "https://api.opskins.com/IUser/GetProfile/v1/";
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(final String response) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    JSONObject res = json.getJSONObject("response");
+                    if(user.equals("/OPSkins:" + res.getString("username")) || user.equals("manual")) {
+                        FileUtils.writeData(context, "twofa.txt", secret + "\n" + res.getString("username"), "2FA Enabled.");
+                    } else {
+                        Toast.makeText(context, R.string.qr_mismatch, Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    this.sleep(2500);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch(Exception e) {
+                    //TODO: Redirect to error activity
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //TODO: Redirect to error activity
+                if(error.networkResponse.statusCode == 401) {
+                    updateBearerForAddTwoFactor(context, FileUtils.getRefresh(context), user, secret);
+                    return;
+                } else if(error.networkResponse.statusCode == 400) {
+                    try {
+                        JSONObject json = new JSONObject(new String(error.networkResponse.data));
+                        if(json.getString("error").equals("invalid_grant")) {
+                            FileUtils.writeData(context, "access.txt", "", true);
+                            return;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    this.sleep(2500);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    this.sleep(2500);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+
+                headers.put("Authorization", "Bearer " + FileUtils.getBearer(context));
+                return headers;
+            }
+
+            ;
+        };
+        Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
+    }
+
+    public static void setDrawerInfo(final Context context, final View view) {
+        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+            updateBearerForDrawerInfo(context, FileUtils.getRefresh(context), view);
+            return;
+        }
+
+        final String url = "https://api.opskins.com/IUser/GetProfile/v1/";
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(final String response) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    JSONObject res = json.getJSONObject("response");
+                    ImageView avatar = view.findViewById(R.id.user_info_avatar);
+                    LinearLayout.LayoutParams avatarParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    avatarParams.gravity = Gravity.BOTTOM;
+                    avatarParams.setMargins(0, 64, 0, 0);
+                    avatar.setLayoutParams(avatarParams);
+                    new ImageDownloader(avatar, 128, 128).execute(res.getString("avatar").startsWith("http") ? res.getString("avatar") : "https://opskins.com" + res.getString("avatar"));;
+                    TextView username = view.findViewById(R.id.user_info_name);
+                    username.setText(res.getString("username"));
+                } catch(Exception e) {
+                    //TODO: Redirect to error activity
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //TODO: Redirect to error activity
+                if(error.networkResponse.statusCode == 401) {
+                    updateBearerForDrawerInfo(context, FileUtils.getRefresh(context), view);
+                    return;
+                } else if(error.networkResponse.statusCode == 400) {
+                    try {
+                        JSONObject json = new JSONObject(new String(error.networkResponse.data));
+                        if(json.getString("error").equals("invalid_grant")) {
+                            FileUtils.writeData(context, "access.txt", "", true);
+                            return;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    this.sleep(2500);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    this.sleep(2500);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+
+                headers.put("Authorization", "Bearer " + FileUtils.getBearer(context));
+                return headers;
+            }
+
+            ;
+        };
         Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
     }
 
@@ -1451,8 +1674,7 @@ public class RequestUtils {
                             public void onErrorResponse(VolleyError error) {
                                 //TODO: Redirect to error activity
                                 if(error.networkResponse.statusCode == 401) {
-                                    //Not logged in, or invalid refresh token, either way, make the user re-log.
-                                    FileUtils.writeData(context, "access.txt", "", true);
+                                    updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id, Integer.toString(getUserID(context)), exclude);
                                     return;
                                 } else if(error.networkResponse.statusCode == 400) {
                                     try {
@@ -1474,7 +1696,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -1489,7 +1711,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -1568,8 +1790,7 @@ public class RequestUtils {
                                             public void onErrorResponse(VolleyError error) {
                                                 //TODO: Redirect to error activity
                                                 if(error.networkResponse.statusCode == 401) {
-                                                    //Not logged in, or invalid refresh token, either way, make the user re-log.
-                                                    FileUtils.writeData(context, "access.txt", "", true);
+                                                    updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id, Integer.toString(getUserID(context)), exclude);
                                                     return;
                                                 } else if(error.networkResponse.statusCode == 400) {
                                                     try {
@@ -1591,7 +1812,7 @@ public class RequestUtils {
                                                             @Override
                                                             public void run() {
                                                                 try {
-                                                                    Thread.sleep(2000);
+                                                                    this.sleep(2500);
                                                                     Intent trades = new Intent(context, MainActivity.class);
                                                                     context.startActivity(trades);
                                                                 } catch(Exception e) {
@@ -1606,7 +1827,7 @@ public class RequestUtils {
                                                             @Override
                                                             public void run() {
                                                                 try {
-                                                                    Thread.sleep(2000);
+                                                                    this.sleep(2500);
                                                                     Intent trades = new Intent(context, MainActivity.class);
                                                                     context.startActivity(trades);
                                                                 } catch(Exception e) {
@@ -1667,7 +1888,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -1682,7 +1903,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -1750,7 +1971,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -1765,7 +1986,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -1888,7 +2109,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -1903,7 +2124,7 @@ public class RequestUtils {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    Thread.sleep(2000);
+                                                    this.sleep(2500);
                                                     Intent trades = new Intent(context, MainActivity.class);
                                                     context.startActivity(trades);
                                                 } catch(Exception e) {
@@ -1963,7 +2184,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -1978,7 +2199,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -2019,7 +2240,7 @@ public class RequestUtils {
                     JSONObject json = new JSONObject(response);
 
                     String access = json.getString("access_token");
-                    String expires = Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis());
+                    String expires = (json.has("expires_in") ? Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis()) : Long.toString(System.currentTimeMillis()));
 
                     String data = access + "\n" + expires + "\n" + (json.has("refresh_token") ? json.getString("refresh_token") : refresh);
 
@@ -2069,7 +2290,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -2084,7 +2305,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -2143,7 +2364,40 @@ public class RequestUtils {
             public void onResponse(String response) {
                 JSONObject offer;
                 try {
-                    offer = new JSONObject(response).getJSONObject("response").getJSONObject("offer");
+                    JSONObject res = new JSONObject(response);
+                    if(!res.has("response")) {
+                        if(res.has("message")) {
+                            Toast.makeText(context, res.getString("message"), Toast.LENGTH_SHORT).show();
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        this.sleep(2500);
+                                        Intent trades = new Intent(context, MainActivity.class);
+                                        context.startActivity(trades);
+                                    } catch(Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }.start();
+                        } else {
+                            Toast.makeText(context, R.string.action_failed, Toast.LENGTH_SHORT).show();
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        this.sleep(2500);
+                                        Intent trades = new Intent(context, MainActivity.class);
+                                        context.startActivity(trades);
+                                    } catch(Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }.start();
+                        }
+                        return;
+                    }
+                    offer = res.getJSONObject("response").getJSONObject("offer");
                     Intent trade = new Intent(context, TradeActivity.class);
                     trade.putExtra("EXTRA_OFFER_DATA", offer.toString());
                     context.startActivity(trade);
@@ -2179,7 +2433,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -2194,7 +2448,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -2259,7 +2513,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -2274,7 +2528,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -2314,13 +2568,50 @@ public class RequestUtils {
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context, "Offer accepted.", Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject res = new JSONObject(response);
+                    if(!res.has("response")) {
+                        if(res.has("message")) {
+                            Toast.makeText(context, res.getString("message"), Toast.LENGTH_SHORT).show();
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        this.sleep(2500);
+                                        Intent trades = new Intent(context, MainActivity.class);
+                                        context.startActivity(trades);
+                                    } catch(Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }.start();
+                        } else {
+                            Toast.makeText(context, R.string.action_failed, Toast.LENGTH_SHORT).show();
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        this.sleep(2500);
+                                        Intent trades = new Intent(context, MainActivity.class);
+                                        context.startActivity(trades);
+                                    } catch(Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }.start();
+                        }
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+                Toast.makeText(context, "Offer accepted.", Toast.LENGTH_SHORT).show();
                 new Thread() {
                     @Override
                     public void run() {
                         try {
-                            Thread.sleep(2000);
+                            this.sleep(2500);
                             Intent trades = new Intent(context, MainActivity.class);
                             context.startActivity(trades);
                         } catch(Exception e) {
@@ -2356,7 +2647,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -2371,7 +2662,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -2419,13 +2710,89 @@ public class RequestUtils {
                     JSONObject json = new JSONObject(response);
 
                     String access = json.getString("access_token");
-                    String expires = Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis());
+                    String expires = (json.has("expires_in") ? Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis()) : Long.toString(System.currentTimeMillis()));
 
                     String data = access + "\n" + expires + "\n" + (json.has("refresh_token") ? json.getString("refresh_token") : refresh);
 
                     String file = "access.txt";
                     FileUtils.writeData(context, file, data);
                     acceptOffer(context, offerid, two_factor_code);
+                    refreshProgress = false;
+                } catch(Exception e) {
+                    //TODO: Redirect to error activity
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse.statusCode == 401) {
+                    //Not logged in, or invalid refresh token, either way, make the user re-log.
+                    FileUtils.writeData(context, "access.txt", "", true);
+                    return;
+                } else if(error.networkResponse.statusCode == 400) {
+                    try {
+                        JSONObject json = new JSONObject(new String(error.networkResponse.data));
+                        if(json.getString("error").equals("invalid_grant")) {
+                            FileUtils.writeData(context, "access.txt", "", true);
+                            return;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                String key = "2f2856914a25:" + FileUtils.getState(context);
+                String hash;
+                try {
+                    hash = Base64.encodeToString(key.getBytes(), Base64.DEFAULT);
+                } catch(Exception e) {
+                    //TODO: Redirect to error activity
+                    e.printStackTrace();
+                    return null;
+                }
+
+                headers.put("authorization", "Basic " + hash);
+                return headers;
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("grant_type", "refresh_token");
+                params.put("refresh_token", refresh);
+                params.put("state", FileUtils.getState(context));
+                return params;
+            }
+        };
+        Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
+    }
+
+    static void updateBearerForDrawerInfo(final Context context, final String refresh, final View view) {
+        String url = "https://oauth.opskins.com/v1/access_token/";
+
+        refreshProgress = true;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject json = new JSONObject(response);
+
+                    String access = json.getString("access_token");
+                    String expires = (json.has("expires_in") ? Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis()) : Long.toString(System.currentTimeMillis()));
+
+                    String data = access + "\n" + expires + "\n" + (json.has("refresh_token") ? json.getString("refresh_token") : refresh);
+
+                    String file = "access.txt";
+                    FileUtils.writeData(context, file, data);
+                    setDrawerInfo(context, view);
                     refreshProgress = false;
                 } catch(Exception e) {
                     //TODO: Redirect to error activity
@@ -2500,7 +2867,7 @@ public class RequestUtils {
                     @Override
                     public void run() {
                         try {
-                            Thread.sleep(2000);
+                            this.sleep(2500);
                             Intent trades = new Intent(context, MainActivity.class);
                             context.startActivity(trades);
                         } catch(Exception e) {
@@ -2536,7 +2903,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -2551,7 +2918,7 @@ public class RequestUtils {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    this.sleep(2500);
                                     Intent trades = new Intent(context, MainActivity.class);
                                     context.startActivity(trades);
                                 } catch(Exception e) {
@@ -2598,7 +2965,7 @@ public class RequestUtils {
                     JSONObject json = new JSONObject(response);
 
                     String access = json.getString("access_token");
-                    String expires = Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis());
+                    String expires = (json.has("expires_in") ? Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis()) : Long.toString(System.currentTimeMillis()));
 
                     String data = access + "\n" + expires + "\n" + (json.has("refresh_token") ? json.getString("refresh_token") : refresh);
 
@@ -2674,7 +3041,7 @@ public class RequestUtils {
                     JSONObject json = new JSONObject(response);
 
                     String access = json.getString("access_token");
-                    String expires = Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis());
+                    String expires = (json.has("expires_in") ? Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis()) : Long.toString(System.currentTimeMillis()));
 
                     String data = access + "\n" + expires + "\n" + (json.has("refresh_token") ? json.getString("refresh_token") : refresh);
 
@@ -2750,7 +3117,7 @@ public class RequestUtils {
                     JSONObject json = new JSONObject(response);
 
                     String access = json.getString("access_token");
-                    String expires = Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis());
+                    String expires = (json.has("expires_in") ? Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis()) : Long.toString(System.currentTimeMillis()));
 
                     String data = access + "\n" + expires + "\n" + (json.has("refresh_token") ? json.getString("refresh_token") : refresh);
 
@@ -2814,7 +3181,7 @@ public class RequestUtils {
         Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
     }
 
-    public static void updateBearer(final Context context, final String refresh) {
+    static void updateBearerForAddTwoFactor(final Context context, final String refresh, final String user, final String secret) {
         String url = "https://oauth.opskins.com/v1/access_token/";
 
         refreshProgress = true;
@@ -2826,7 +3193,8 @@ public class RequestUtils {
                     JSONObject json = new JSONObject(response);
 
                     String access = json.getString("access_token");
-                    String expires = Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis());
+                    String expires = (json.has("expires_in") ? Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis()) : Long.toString(System.currentTimeMillis()));
+
                     String ref = refresh;
                     if(json.has("refresh_token")) {
                         ref = json.getString("refresh_token");
@@ -2836,6 +3204,7 @@ public class RequestUtils {
 
                     String file = "access.txt";
                     FileUtils.writeData(context, file, data);
+                    addTwoFactor(context, user, secret);
                     refreshProgress = false;
                 } catch(Exception e) {
                     //TODO: Redirect to error activity
@@ -2905,7 +3274,7 @@ public class RequestUtils {
                     JSONObject json = new JSONObject(response);
 
                     String access = json.getString("access_token");
-                    String expires = Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis());
+                    String expires = (json.has("expires_in") ? Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis()) : Long.toString(System.currentTimeMillis()));
 
                     String ref = refresh;
                     if(json.has("refresh_token")) {
@@ -3004,7 +3373,6 @@ public class RequestUtils {
             public void onErrorResponse(VolleyError error) {
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
-                    //Not logged in, or invalid refresh token, either way, make the user re-log.
                     FileUtils.writeData(context, "access.txt", "", true);
                     return;
                 } else if(error.networkResponse.statusCode == 400) {

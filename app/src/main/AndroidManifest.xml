@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -66,9 +67,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="trade.opskins.com"
-                    android:pathPrefix=""/>
+                    android:pathPrefix=""
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
@@ -84,12 +85,21 @@
         <activity
             android:name=".TradeHistoryActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".RemoveItemActivity"
+        <activity
+            android:name=".RemoveItemActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
-        <activity android:name=".PreviewItemActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+        <activity
+            android:name=".PreviewItemActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+        <activity
+            android:name=".Setup2FAActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".TwoFAActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Scanner"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

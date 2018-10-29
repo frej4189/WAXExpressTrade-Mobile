@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.jegerkatten.waxexpresstrade.adapters.MainPagerAdapter;
+import com.jegerkatten.waxexpresstrade.utils.FileUtils;
 import com.jegerkatten.waxexpresstrade.utils.RequestUtils;
 import com.jegerkatten.waxexpresstrade.utils.StringUtils;
 
@@ -81,6 +82,7 @@ public class SendTradeActivity extends AppCompatActivity {
         drawer.addDrawerListener(drawerToggle);
         drawerItems = findViewById(R.id.nav_view);
         drawerItems.bringToFront();
+        RequestUtils.setDrawerInfo(this, drawerItems);
         drawerItems.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -112,6 +114,17 @@ public class SendTradeActivity extends AppCompatActivity {
                         Intent logout = new Intent(ctx, LogoutActivity.class);
                         startActivity(logout);
                         finish();
+                        return true;
+                    case R.id.select_2fa:
+                        if(FileUtils.get2FASecret(ctx) == null) {
+                            Intent setup2FA = new Intent(ctx, Setup2FAActivity.class);
+                            startActivity(setup2FA);
+                            finish();
+                        } else {
+                            Intent twoFA = new Intent(ctx, TwoFAActivity.class);
+                            startActivity(twoFA);
+                            finish();
+                        }
                         return true;
                     default:
                         return false;

@@ -23,12 +23,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jegerkatten.waxexpresstrade.utils.FileUtils;
 import com.jegerkatten.waxexpresstrade.utils.ImageDownloader;
 import com.jegerkatten.waxexpresstrade.utils.RequestUtils;
+import com.jegerkatten.waxexpresstrade.utils.TwoFAUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 
 public class MakeTradeActivity extends AppCompatActivity {
@@ -40,6 +43,9 @@ public class MakeTradeActivity extends AppCompatActivity {
 
     private LinearLayout layout;
     private LinearLayout send;
+
+    private LinearLayout infoMe;
+    private LinearLayout infoThem;
 
     int uid;
     int uidMy;
@@ -55,9 +61,6 @@ public class MakeTradeActivity extends AppCompatActivity {
     private LinearLayout currentMe = null;
     private int itemsThem = 0;
     private LinearLayout currentThem = null;
-
-    private LinearLayout infoMe;
-    private LinearLayout infoThem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,7 @@ public class MakeTradeActivity extends AppCompatActivity {
         drawer.addDrawerListener(drawerToggle);
         drawerItems = findViewById(R.id.nav_view);
         drawerItems.bringToFront();
+        RequestUtils.setDrawerInfo(this, drawerItems);
         drawerItems.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -122,6 +126,17 @@ public class MakeTradeActivity extends AppCompatActivity {
                         startActivity(logout);
                         finish();
                         return true;
+                    case R.id.select_2fa:
+                        if(FileUtils.get2FASecret(ctx) == null) {
+                            Intent setup2FA = new Intent(ctx, Setup2FAActivity.class);
+                            startActivity(setup2FA);
+                            finish();
+                        } else {
+                            Intent twoFA = new Intent(ctx, TwoFAActivity.class);
+                            startActivity(twoFA);
+                            finish();
+                        }
+                        return true;
                     default:
                         return false;
                 }
@@ -142,7 +157,7 @@ public class MakeTradeActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(2000);
+                        this.sleep(2500);
                         startActivity(trades);
                         finish();
                     } catch(Exception e) {
@@ -177,6 +192,7 @@ public class MakeTradeActivity extends AppCompatActivity {
         uidMy = uidMe;
         final int uidThem = uid;
         if(uidMe < 0) {
+            System.out.println("UIDME = 0");
             Toast.makeText(this, "Failed to load information.", Toast.LENGTH_SHORT).show();
             final Intent trades = new Intent(this, MainActivity.class);
 
@@ -184,7 +200,7 @@ public class MakeTradeActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(2000);
+                        this.sleep(2500);
                         startActivity(trades);
                         finish();
                     } catch(Exception e) {
@@ -215,8 +231,6 @@ public class MakeTradeActivity extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         maxItems = ((int) Math.floor(metrics.widthPixels / 122));
-        LinearLayout current = new LinearLayout(this);
-        current.setOrientation(LinearLayout.HORIZONTAL);
         if(myItems.size() > 0) {
             try {
                 for(int i = 0; i < myItems.size(); i++) {
@@ -227,6 +241,7 @@ public class MakeTradeActivity extends AppCompatActivity {
                     itemDividerParams.rightMargin = 10;
                     itemDivider.setLayoutParams(itemDividerParams);
                     itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    itemDivider.setId(item.getInt("id"));
 
                     ImageView img = new ImageView(this);
                     new ImageDownloader(img, 100, 100).execute(item.getJSONObject("image").getString("300px"));
@@ -242,15 +257,16 @@ public class MakeTradeActivity extends AppCompatActivity {
                     itemsMe++;
                     if (itemsMe > maxItems) {
                         itemsMe--;
-                        current.addView(itemDivider);
-                        myItemsLayout.addView(current);
-                        current = new LinearLayout(this);
-                        current.setOrientation(LinearLayout.HORIZONTAL);
+                        currentMe.addView(itemDivider);
+                        myItemsLayout.addView(currentMe);
+                        currentMe = new LinearLayout(this);
+                        currentMe.setOrientation(LinearLayout.HORIZONTAL);
                         itemDivider = new View(this);
                         itemDivider.setLayoutParams(itemDividerParams);
                         itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                        current.addView(itemDivider);
-                        current.addView(img);
+                        itemDivider.setId(item.getInt("id"));
+                        currentMe.addView(itemDivider);
+                        currentMe.addView(img);
                         View lineDivider = new View(this);
                         LinearLayout.LayoutParams lineDividerParams = new LinearLayout.LayoutParams(itemsMe * 122 + 12, 2);
                         lineDividerParams.topMargin = 10;
@@ -261,8 +277,8 @@ public class MakeTradeActivity extends AppCompatActivity {
                         myItemsLayout.addView(lineDivider);
                         itemsMe = 1;
                     } else {
-                        current.addView(itemDivider);
-                        current.addView(img);
+                        currentMe.addView(itemDivider);
+                        currentMe.addView(img);
                     }
                 }
                 View itemDivider = new View(this);
@@ -271,10 +287,10 @@ public class MakeTradeActivity extends AppCompatActivity {
                 itemDividerParams.rightMargin = 10;
                 itemDivider.setLayoutParams(itemDividerParams);
                 itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                current.addView(itemDivider);
-                myItemsLayout.addView(current);
-                currentMe = current;
+                currentMe.addView(itemDivider);
+                myItemsLayout.addView(currentMe);
             } catch (JSONException e) {
+                System.out.println("JSON EXCEPTION");
                 e.printStackTrace();
                 Toast.makeText(this, "Failed to load information.", Toast.LENGTH_SHORT).show();
                 final Intent trades = new Intent(this, MainActivity.class);
@@ -283,7 +299,7 @@ public class MakeTradeActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Thread.sleep(2000);
+                            this.sleep(2500);
                             startActivity(trades);
                             finish();
                         } catch(Exception e) {
@@ -327,8 +343,6 @@ public class MakeTradeActivity extends AppCompatActivity {
         theirItemsLayout = new LinearLayout(this);
         theirItemsLayout.setOrientation(LinearLayout.VERTICAL);
         itemsThem = 0;
-        current = new LinearLayout(this);
-        current.setOrientation(LinearLayout.HORIZONTAL);
         if(theirItems.size() > 0) {
             try {
                 for(int i = 0; i < theirItems.size(); i++) {
@@ -339,6 +353,7 @@ public class MakeTradeActivity extends AppCompatActivity {
                     itemDividerParams.rightMargin = 10;
                     itemDivider.setLayoutParams(itemDividerParams);
                     itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    itemDivider.setId(item.getInt("id"));
 
                     ImageView img = new ImageView(this);
                     new ImageDownloader(img, 100, 100).execute(item.getJSONObject("image").getString("300px"));
@@ -354,15 +369,16 @@ public class MakeTradeActivity extends AppCompatActivity {
                     itemsThem++;
                     if (itemsThem > maxItems) {
                         itemsThem--;
-                        current.addView(itemDivider);
-                        theirItemsLayout.addView(current);
-                        current = new LinearLayout(this);
-                        current.setOrientation(LinearLayout.HORIZONTAL);
+                        currentThem.addView(itemDivider);
+                        theirItemsLayout.addView(currentThem);
+                        currentThem = new LinearLayout(this);
+                        currentThem.setOrientation(LinearLayout.HORIZONTAL);
                         itemDivider = new View(this);
                         itemDivider.setLayoutParams(itemDividerParams);
                         itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                        current.addView(itemDivider);
-                        current.addView(img);
+                        itemDivider.setId(item.getInt("id"));
+                        currentThem.addView(itemDivider);
+                        currentThem.addView(img);
                         View lineDivider = new View(this);
                         LinearLayout.LayoutParams lineDividerParams = new LinearLayout.LayoutParams(itemsThem * 122 + 12, 2);
                         lineDividerParams.topMargin = 10;
@@ -373,8 +389,8 @@ public class MakeTradeActivity extends AppCompatActivity {
                         theirItemsLayout.addView(lineDivider);
                         itemsThem = 1;
                     } else {
-                        current.addView(itemDivider);
-                        current.addView(img);
+                        currentThem.addView(itemDivider);
+                        currentThem.addView(img);
                     }
                 }
                 View itemDivider = new View(this);
@@ -383,11 +399,11 @@ public class MakeTradeActivity extends AppCompatActivity {
                 itemDividerParams.rightMargin = 10;
                 itemDivider.setLayoutParams(itemDividerParams);
                 itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                current.addView(itemDivider);
-                theirItemsLayout.addView(current);
-                currentThem = current;
+                currentThem.addView(itemDivider);
+                theirItemsLayout.addView(currentThem);
             } catch (JSONException e) {
                 e.printStackTrace();
+                System.out.println("JSONEXCEPTION,1");
                 Toast.makeText(this, "Failed to load information.", Toast.LENGTH_SHORT).show();
                 final Intent trades = new Intent(this, MainActivity.class);
 
@@ -395,7 +411,7 @@ public class MakeTradeActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Thread.sleep(2000);
+                            this.sleep(2500);
                             startActivity(trades);
                             finish();
                         } catch(Exception e) {
@@ -429,7 +445,7 @@ public class MakeTradeActivity extends AppCompatActivity {
         layout.addView(them);
 
         if(myItems.size() + theirItems.size() > 0) {
-            LinearLayout send = new LinearLayout(this);
+            send = new LinearLayout(this);
             send.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             send.setOrientation(LinearLayout.VERTICAL);
             LinearLayout message = new LinearLayout(this);
@@ -485,15 +501,25 @@ public class MakeTradeActivity extends AppCompatActivity {
                                 items_to_receive = items_to_receive + "," + item.getInt("id");
                             }
                         }
-
-                        RequestUtils.makeOffer(ctx, tradeURL, twofaField.getText().toString(), messageField.getText().toString(), items_to_send, items_to_receive);
+                        String secret;
+                        if((secret = FileUtils.get2FASecret(ctx)) == null) {
+                            RequestUtils.makeOffer(ctx, tradeURL, twofaField.getText().toString(), messageField.getText().toString(), items_to_send, items_to_receive);
+                        } else {
+                            try {
+                                RequestUtils.makeOffer(ctx, tradeURL, TwoFAUtils.generateTwoFactorCode(secret), messageField.getText().toString(), items_to_send, items_to_receive);
+                            } catch (GeneralSecurityException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
             });
             send.addView(message);
-            send.addView(twofa);
+            if(FileUtils.get2FASecret(ctx) == null) {
+                send.addView(twofa);
+            }
             send.addView(sendbtn);
             View sendDivider = new View(this);
             LinearLayout.LayoutParams sendDividerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2);
@@ -509,341 +535,345 @@ public class MakeTradeActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1) {
-            if(resultCode == RESULT_OK) {
-                if (data.hasExtra("item")) {
-                    myItems.add(data.getStringExtra("item"));
-                }
-            }
-        } else if(requestCode == 2) {
-            if(resultCode == RESULT_OK) {
-                if(data.hasExtra("item")) {
-                    theirItems.add(data.getStringExtra("item"));
-                }
-            }
-        } else if(requestCode == 3) {
-            if(resultCode == RESULT_OK) {
-                if(data.hasExtra("item")) {
-                    myItems.remove(myItems.indexOf(data.getStringExtra("item")));
-                }
-            }
-        } else if(requestCode == 4) {
-            if(resultCode == RESULT_OK) {
-                if(data.hasExtra("item")) {
-                    theirItems.remove(theirItems.indexOf(data.getStringExtra("item")));
-                }
-            }
-        }
-        LinearLayout.LayoutParams horizontalDividerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2);
-        horizontalDividerParams.topMargin = 10;
-        horizontalDividerParams.bottomMargin = 10;
-        LinearLayout.LayoutParams verticalDividerParams = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
-        verticalDividerParams.leftMargin = 10;
-        verticalDividerParams.rightMargin = 10;
+        try {
+            if(requestCode == 1) {
+                if(resultCode == RESULT_OK) {
+                    if (data.hasExtra("item")) {
+                        myItems.add(data.getStringExtra("item"));
+                        infoMe.removeAllViews();
+                        RequestUtils.displayInformation(infoMe, this, uidMy, R.string.you_name, myItems.size());
 
-        layout.removeAllViews();
+                        if(currentMe == null) {
+                            currentMe = new LinearLayout(this);
+                            currentMe.setOrientation(LinearLayout.HORIZONTAL);
+                        }
 
-        LinearLayout me = new LinearLayout(this);
-        me.setOrientation(LinearLayout.VERTICAL);
-        infoMe = new LinearLayout(this);
-        infoMe.setOrientation(LinearLayout.HORIZONTAL);
-        RequestUtils.displayInformation(infoMe, this, uidMy, R.string.you_name, myItems.size());
-        me.addView(infoMe);
-        myItemsLayout = new LinearLayout(this);
-        myItemsLayout.setOrientation(LinearLayout.VERTICAL);
-        itemsMe = 0;
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        maxItems = ((int) Math.floor(metrics.widthPixels / 122));
-        LinearLayout current = new LinearLayout(this);
-        current.setOrientation(LinearLayout.HORIZONTAL);
-        if(myItems.size() > 0) {
-            try {
-                for(int i = 0; i < myItems.size(); i++) {
-                    final JSONObject item = new JSONObject(myItems.get(i));
-                    View itemDivider = new View(this);
-                    LinearLayout.LayoutParams itemDividerParams = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
-                    itemDividerParams.leftMargin = 10;
-                    itemDividerParams.rightMargin = 10;
-                    itemDivider.setLayoutParams(itemDividerParams);
-                    itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                        final JSONObject item = new JSONObject(data.getStringExtra("item"));
+                        View itemDivider = new View(this);
+                        LinearLayout.LayoutParams itemDividerParams = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
+                        itemDividerParams.leftMargin = 10;
+                        itemDividerParams.rightMargin = 10;
+                        itemDivider.setLayoutParams(itemDividerParams);
+                        itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                        itemDivider.setId(item.getInt("id"));
 
-                    ImageView img = new ImageView(this);
-                    new ImageDownloader(img, 100, 100).execute(item.getJSONObject("image").getString("300px"));
-                    img.setOnClickListener(new ImageView.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                        ImageView img = new ImageView(this);
+                        new ImageDownloader(img, 100, 100).execute(item.getJSONObject("image").getString("300px"));
+                        img.setOnClickListener(new ImageView.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
                             Intent itemIntent = new Intent(ctx, RemoveItemActivity.class);
                             itemIntent.putExtra("item", item.toString());
                             ((Activity) ctx).startActivityForResult(itemIntent, 3);
-                        }
-                    });
+                            }
+                        });
 
-                    itemsMe++;
-                    if (itemsMe > maxItems) {
-                        itemsMe--;
-                        current.addView(itemDivider);
-                        myItemsLayout.addView(current);
-                        current = new LinearLayout(this);
-                        current.setOrientation(LinearLayout.HORIZONTAL);
-                        itemDivider = new View(this);
+                        itemsMe++;
+                        if (itemsMe > maxItems) {
+                            itemsMe--;
+                            currentMe.addView(itemDivider);
+                            if(currentMe.getParent() != myItemsLayout) {
+                                myItemsLayout.addView(currentMe);
+                            }
+                            currentMe = new LinearLayout(this);
+                            currentMe.setOrientation(LinearLayout.HORIZONTAL);
+                            itemDivider = new View(this);
+                            itemDivider.setLayoutParams(itemDividerParams);
+                            itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                            itemDivider.setId(item.getInt("id"));
+                            currentMe.addView(itemDivider);
+                            currentMe.addView(img);
+                            itemDivider = new View(this);
+                            itemDivider.setLayoutParams(itemDividerParams);
+                            itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                            itemDivider.setId(item.getInt("id"));
+                            currentMe.addView(itemDivider);
+                            View lineDivider = new View(this);
+                            LinearLayout.LayoutParams lineDividerParams = new LinearLayout.LayoutParams(itemsMe * 122 + 12, 2);
+                            lineDividerParams.topMargin = 10;
+                            lineDividerParams.leftMargin = 5;
+                            lineDividerParams.bottomMargin = 10;
+                            lineDivider.setLayoutParams(lineDividerParams);
+                            lineDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                            myItemsLayout.addView(lineDivider);
+                            myItemsLayout.addView(currentMe);
+                            itemsMe = 1;
+                        } else {
+                            currentMe.addView(itemDivider);
+                            currentMe.addView(img);
+                            if(currentMe.getParent() == null) {
+                                myItemsLayout.addView(currentMe);
+                                itemDivider = new View(this);
+                                itemDivider.setLayoutParams(itemDividerParams);
+                                itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                currentMe.addView(itemDivider);
+                            } else {
+                                View closingDivider = currentMe.getChildAt(currentMe.getChildCount() - 3);
+                                currentMe.removeView(closingDivider);
+                                currentMe.addView(closingDivider);
+                            }
+                        }
+                    }
+                }
+            } else if(requestCode == 2) {
+                if(resultCode == RESULT_OK) {
+                    if(data.hasExtra("item")) {
+                        theirItems.add(data.getStringExtra("item"));
+                        infoThem.removeAllViews();
+                        RequestUtils.displayInformation(infoThem, this, uid, R.string.them_name, theirItems.size());
+
+                        if(currentThem == null) {
+                            currentThem = new LinearLayout(this);
+                            currentThem.setOrientation(LinearLayout.HORIZONTAL);
+                        }
+
+                        final JSONObject item = new JSONObject(data.getStringExtra("item"));
+                        View itemDivider = new View(this);
+                        LinearLayout.LayoutParams itemDividerParams = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
+                        itemDividerParams.leftMargin = 10;
+                        itemDividerParams.rightMargin = 10;
                         itemDivider.setLayoutParams(itemDividerParams);
                         itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                        current.addView(itemDivider);
-                        current.addView(img);
-                        View lineDivider = new View(this);
-                        LinearLayout.LayoutParams lineDividerParams = new LinearLayout.LayoutParams(itemsMe * 122 + 12, 2);
-                        lineDividerParams.topMargin = 10;
-                        lineDividerParams.leftMargin = 5;
-                        lineDividerParams.bottomMargin = 10;
-                        lineDivider.setLayoutParams(lineDividerParams);
-                        lineDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                        myItemsLayout.addView(lineDivider);
-                        itemsMe = 1;
-                    } else {
-                        current.addView(itemDivider);
-                        current.addView(img);
-                    }
-                }
-                View itemDivider = new View(this);
-                LinearLayout.LayoutParams itemDividerParams = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
-                itemDividerParams.leftMargin = 10;
-                itemDividerParams.rightMargin = 10;
-                itemDivider.setLayoutParams(itemDividerParams);
-                itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                current.addView(itemDivider);
-                myItemsLayout.addView(current);
-                currentMe = current;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Failed to load information.", Toast.LENGTH_SHORT).show();
-                final Intent trades = new Intent(this, MainActivity.class);
+                        itemDivider.setId(item.getInt("id"));
 
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(2000);
-                            startActivity(trades);
-                            finish();
-                        } catch(Exception e) {
-                            e.printStackTrace();
+                        ImageView img = new ImageView(this);
+                        new ImageDownloader(img, 100, 100).execute(item.getJSONObject("image").getString("300px"));
+                        img.setOnClickListener(new ImageView.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent itemIntent = new Intent(ctx, RemoveItemActivity.class);
+                                itemIntent.putExtra("item", item.toString());
+                                ((Activity) ctx).startActivityForResult(itemIntent, 4);
+                            }
+                        });
+
+                        itemsThem++;
+                        if (itemsThem > maxItems) {
+                            itemsThem--;
+                            if(currentThem.getParent() != theirItemsLayout) {
+                                theirItemsLayout.addView(currentThem);
+                            }
+                            currentThem = new LinearLayout(this);
+                            currentThem.setOrientation(LinearLayout.HORIZONTAL);
+                            itemDivider = new View(this);
+                            itemDivider.setLayoutParams(itemDividerParams);
+                            itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                            itemDivider.setId(item.getInt("id"));
+                            currentThem.addView(itemDivider);
+                            currentThem.addView(img);
+                            itemDivider = new View(this);
+                            itemDivider.setLayoutParams(itemDividerParams);
+                            itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                            itemDivider.setId(item.getInt("id"));
+                            currentThem.addView(itemDivider);
+                            View lineDivider = new View(this);
+                            LinearLayout.LayoutParams lineDividerParams = new LinearLayout.LayoutParams(itemsThem * 122 + 12, 2);
+                            lineDividerParams.topMargin = 10;
+                            lineDividerParams.leftMargin = 5;
+                            lineDividerParams.bottomMargin = 10;
+                            lineDivider.setLayoutParams(lineDividerParams);
+                            lineDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                            theirItemsLayout.addView(lineDivider);
+                            theirItemsLayout.addView(currentThem);
+                            itemsThem = 1;
+                        } else {
+                            currentThem.addView(itemDivider);
+                            currentThem.addView(img);
+                            if(currentThem.getParent() == null) {
+                                theirItemsLayout.addView(currentThem);
+                                itemDivider = new View(this);
+                                itemDivider.setLayoutParams(itemDividerParams);
+                                itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                currentThem.addView(itemDivider);
+                            } else {
+                                View closingDivider = currentThem.getChildAt(currentThem.getChildCount() - 3);
+                                currentThem.removeView(closingDivider);
+                                currentThem.addView(closingDivider);
+                            }
                         }
                     }
-                }.start();
-                return;
+                }
+            } else if(requestCode == 3) {
+                if(resultCode == RESULT_OK) {
+                    if(data.hasExtra("item")) {
+                        myItems.remove(myItems.indexOf(data.getStringExtra("item")));
+                        infoMe.removeAllViews();
+                        RequestUtils.displayInformation(infoMe, this, uidMy, R.string.you_name, myItems.size());
+
+                        final JSONObject item = new JSONObject(data.getStringExtra("item"));
+
+                        View view = myItemsLayout.findViewById(item.getInt("id"));
+                        LinearLayout row = (LinearLayout) view.getParent();
+                        ImageView image = (ImageView) row.getChildAt(row.indexOfChild(view) + 1);
+                        row.removeView(view);
+                        row.removeView(image);
+                        if(row.getChildCount() <= 1) {
+                            row.removeAllViews();
+                            myItemsLayout.removeView(myItemsLayout.getChildAt(myItemsLayout.indexOfChild(row) - 1));
+                            myItemsLayout.removeView(row);
+                        } else if(Math.ceil(myItemsLayout.getChildCount() / 2.0) > (myItemsLayout.indexOfChild(row) + 1)) {
+                            LinearLayout finalRow = (LinearLayout) (myItemsLayout.getChildCount() % 2 == 0 ? myItemsLayout.getChildAt(myItemsLayout.getChildCount() - 2) : myItemsLayout.getChildAt(myItemsLayout.getChildCount() - 1));
+                            if(itemsMe <= 0) {
+                                itemsMe = maxItems;
+                            }
+                            itemsMe--;
+                            ImageView finalImage = (ImageView) finalRow.getChildAt(finalRow.getChildCount() - 2);
+                            View finalDivider = finalRow.getChildAt(finalRow.getChildCount() - 3);
+                            finalRow.removeView(finalImage);
+                            finalRow.removeView(finalDivider);
+                            if(finalRow.getChildCount() <= 1) {
+                                finalRow.removeAllViews();
+                                myItemsLayout.removeView(finalRow);
+                                myItemsLayout.removeView(myItemsLayout.getChildAt(myItemsLayout.getChildCount() - 1));
+                            }
+                            View closingDivider = row.getChildAt(row.getChildCount() - 1);
+                            row.removeView(closingDivider);
+                            row.addView(finalDivider);
+                            row.addView(finalImage);
+                            row.addView(closingDivider);
+                        }
+                    }
+                }
+            } else if(requestCode == 4) {
+                if(resultCode == RESULT_OK) {
+                    if(data.hasExtra("item")) {
+                        theirItems.remove(theirItems.indexOf(data.getStringExtra("item")));
+                        infoThem.removeAllViews();
+                        RequestUtils.displayInformation(infoThem, this, uid, R.string.them_name, theirItems.size());
+
+                        final JSONObject item = new JSONObject(data.getStringExtra("item"));
+
+                        View view = theirItemsLayout.findViewById(item.getInt("id"));
+                        LinearLayout row = (LinearLayout) view.getParent();
+                        ImageView image = (ImageView) row.getChildAt(row.indexOfChild(view) + 1);
+                        row.removeView(view);
+                        row.removeView(image);
+                        if(row.getChildCount() <= 1) {
+                            row.removeAllViews();
+                            theirItemsLayout.removeView(theirItemsLayout.getChildAt(theirItemsLayout.indexOfChild(row) - 1));
+                            theirItemsLayout.removeView(row);
+                        } else if(Math.ceil(theirItemsLayout.getChildCount() / 2.0) > (theirItemsLayout.indexOfChild(row) + 1)) {
+                            LinearLayout finalRow = (LinearLayout) (theirItemsLayout.getChildCount() % 2 == 0 ? theirItemsLayout.getChildAt(theirItemsLayout.getChildCount() - 2) : theirItemsLayout.getChildAt(theirItemsLayout.getChildCount() - 1));
+                            if(itemsThem <= 0) {
+                                itemsThem = maxItems;
+                            }
+                            itemsThem--;
+                            ImageView finalImage = (ImageView) finalRow.getChildAt(finalRow.getChildCount() - 2);
+                            View finalDivider = finalRow.getChildAt(finalRow.getChildCount() - 3);
+                            finalRow.removeView(finalImage);
+                            finalRow.removeView(finalDivider);
+                            if(finalRow.getChildCount() <= 1) {
+                                finalRow.removeAllViews();
+                                theirItemsLayout.removeView(finalRow);
+                                theirItemsLayout.removeView(theirItemsLayout.getChildAt(theirItemsLayout.getChildCount() - 1));
+                            }
+                            View closingDivider = row.getChildAt(row.getChildCount() - 1);
+                            row.removeView(closingDivider);
+                            row.addView(finalDivider);
+                            row.addView(finalImage);
+                            row.addView(closingDivider);
+                        }
+                    }
+                }
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        me.addView(myItemsLayout);
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonParams.topMargin = 10;
-        buttonParams.leftMargin = 10;
-        buttonParams.bottomMargin = 10;
-        buttonParams.rightMargin = 10;
-        Button addMyItems = new Button(this);
-        addMyItems.setBackgroundColor(Color.parseColor("#007bff"));
-        addMyItems.setText(R.string.add_items);
-        addMyItems.setLayoutParams(buttonParams);
-        addMyItems.setGravity(Gravity.CENTER_HORIZONTAL);
-        addMyItems.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent selectItems = new Intent(ctx, SelectItemsActivity.class);
-                selectItems.putExtra("uid", Integer.toString(uidMy));
-                selectItems.putExtra("items", myItems);
-                startActivityForResult(selectItems, 1);
-            }
-        });
-        me.addView(addMyItems);
-        View personDivider = new View(this);
-        personDivider.setLayoutParams(horizontalDividerParams);
-        personDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        LinearLayout them = new LinearLayout(this);
-        them.setOrientation(LinearLayout.VERTICAL);
-        infoThem = new LinearLayout(this);
-        infoThem.setOrientation(LinearLayout.HORIZONTAL);
-        RequestUtils.displayInformation(infoThem, this, uid, R.string.them_name, theirItems.size());
-        them.addView(infoThem);
-        theirItemsLayout = new LinearLayout(this);
-        theirItemsLayout.setOrientation(LinearLayout.VERTICAL);
-        itemsThem = 0;
-        current = new LinearLayout(this);
-        current.setOrientation(LinearLayout.HORIZONTAL);
-        if(theirItems.size() > 0) {
-            try {
-                for(int i = 0; i < theirItems.size(); i++) {
-                    final JSONObject item = new JSONObject(theirItems.get(i));
-                    View itemDivider = new View(this);
-                    LinearLayout.LayoutParams itemDividerParams = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
-                    itemDividerParams.leftMargin = 10;
-                    itemDividerParams.rightMargin = 10;
-                    itemDivider.setLayoutParams(itemDividerParams);
-                    itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-
-                    ImageView img = new ImageView(this);
-                    new ImageDownloader(img, 100, 100).execute(item.getJSONObject("image").getString("300px"));
-                    img.setOnClickListener(new ImageView.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent itemIntent = new Intent(ctx, RemoveItemActivity.class);
-                            itemIntent.putExtra("item", item.toString());
-                            ((Activity) ctx).startActivityForResult(itemIntent, 4);
-                        }
-                    });
-
-                    itemsThem++;
-                    if (itemsThem > maxItems) {
-                        itemsThem--;
-                        current.addView(itemDivider);
-                        theirItemsLayout.addView(current);
-                        current = new LinearLayout(this);
-                        current.setOrientation(LinearLayout.HORIZONTAL);
-                        itemDivider = new View(this);
-                        itemDivider.setLayoutParams(itemDividerParams);
-                        itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                        current.addView(itemDivider);
-                        current.addView(img);
-                        View lineDivider = new View(this);
-                        LinearLayout.LayoutParams lineDividerParams = new LinearLayout.LayoutParams(itemsThem * 122 + 12, 2);
-                        lineDividerParams.topMargin = 10;
-                        lineDividerParams.leftMargin = 5;
-                        lineDividerParams.bottomMargin = 10;
-                        lineDivider.setLayoutParams(lineDividerParams);
-                        lineDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                        theirItemsLayout.addView(lineDivider);
-                        itemsThem = 1;
-                    } else {
-                        current.addView(itemDivider);
-                        current.addView(img);
-                    }
-                }
-                View itemDivider = new View(this);
-                LinearLayout.LayoutParams itemDividerParams = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
-                itemDividerParams.leftMargin = 10;
-                itemDividerParams.rightMargin = 10;
-                itemDivider.setLayoutParams(itemDividerParams);
-                itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                current.addView(itemDivider);
-                theirItemsLayout.addView(current);
-                currentThem = current;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Failed to load information.", Toast.LENGTH_SHORT).show();
-                final Intent trades = new Intent(this, MainActivity.class);
-
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(2000);
-                            startActivity(trades);
-                            finish();
-                        } catch(Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
-                return;
-            }
-        }
-        them.addView(theirItemsLayout);
-        Button addTheirItems = new Button(this);
-        addTheirItems.setBackgroundColor(Color.parseColor("#007bff"));
-        addTheirItems.setText(R.string.add_items);
-        addTheirItems.setGravity(Gravity.CENTER_HORIZONTAL);
-        addTheirItems.setLayoutParams(buttonParams);
-        addTheirItems.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent selectItems = new Intent(ctx, SelectItemsActivity.class);
-                selectItems.putExtra("uid", Integer.toString(uid));
-                if(theirItems != null) {
-                    selectItems.putExtra("items", theirItems);
-                }
-                startActivityForResult(selectItems, 2);
-            }
-        });
-        them.addView(addTheirItems);
-        layout.addView(me);
-        layout.addView(personDivider);
-        layout.addView(them);
 
         if(myItems.size() + theirItems.size() > 0) {
-            LinearLayout send = new LinearLayout(this);
-            send.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            send.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout message = new LinearLayout(this);
-            message.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            message.setOrientation(LinearLayout.VERTICAL);
-            message.setGravity(Gravity.CENTER_HORIZONTAL);
-            TextView messageGuide = new TextView(this);
-            messageGuide.setText(R.string.message_guide);
-            messageGuide.setGravity(Gravity.CENTER_HORIZONTAL);
-            LinearLayout.LayoutParams weightParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            weightParams.weight = 1;
-            messageGuide.setLayoutParams(weightParams);
-            final EditText messageField = new EditText(this);
-            messageField.setHint(R.string.message_placeholder);
-            messageField.setLayoutParams(weightParams);
-            messageField.setFilters(new InputFilter[] {new InputFilter.LengthFilter(190)});
-            message.addView(messageGuide);
-            message.addView(messageField);
-            LinearLayout twofa = new LinearLayout(this);
-            twofa.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            twofa.setOrientation(LinearLayout.VERTICAL);
-            twofa.setGravity(Gravity.CENTER_HORIZONTAL);
-            TextView twofaGuide = new TextView(this);
-            twofaGuide.setText(R.string.twofa_guide);
-            twofaGuide.setLayoutParams(weightParams);
-            final EditText twofaField = new EditText(this);
-            twofaField.setHint(R.string.twofa_placeholder);
-            twofaField.setLayoutParams(weightParams);
-            twofa.addView(twofaGuide);
-            twofa.addView(twofaField);
-            Button sendbtn = new Button(this);
-            sendbtn.setText(R.string.send_offer);
-            sendbtn.setBackgroundColor(Color.parseColor("#007bff"));
-            sendbtn.setOnClickListener(new Button.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        String items_to_send = "";
-                        for(int i = 0; i < myItems.size(); i++) {
-                            JSONObject item = new JSONObject(myItems.get(i));
-                            if(i == 0) {
-                                items_to_send = items_to_send + item.getInt("id");
-                            } else {
-                                items_to_send = items_to_send + "," + item.getInt("id");
+            if(send == null) {
+                send = new LinearLayout(this);
+                send.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                send.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout message = new LinearLayout(this);
+                message.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                message.setOrientation(LinearLayout.VERTICAL);
+                message.setGravity(Gravity.CENTER_HORIZONTAL);
+                TextView messageGuide = new TextView(this);
+                messageGuide.setText(R.string.message_guide);
+                messageGuide.setGravity(Gravity.CENTER_HORIZONTAL);
+                LinearLayout.LayoutParams weightParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                weightParams.weight = 1;
+                messageGuide.setLayoutParams(weightParams);
+                final EditText messageField = new EditText(this);
+                messageField.setHint(R.string.message_placeholder);
+                messageField.setLayoutParams(weightParams);
+                messageField.setFilters(new InputFilter[]{new InputFilter.LengthFilter(190)});
+                message.addView(messageGuide);
+                message.addView(messageField);
+                LinearLayout twofa = new LinearLayout(this);
+                twofa.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                twofa.setOrientation(LinearLayout.VERTICAL);
+                twofa.setGravity(Gravity.CENTER_HORIZONTAL);
+                TextView twofaGuide = new TextView(this);
+                twofaGuide.setText(R.string.twofa_guide);
+                twofaGuide.setLayoutParams(weightParams);
+                final EditText twofaField = new EditText(this);
+                twofaField.setHint(R.string.twofa_placeholder);
+                twofaField.setLayoutParams(weightParams);
+                twofa.addView(twofaGuide);
+                twofa.addView(twofaField);
+                Button sendbtn = new Button(this);
+                sendbtn.setText(R.string.send_offer);
+                sendbtn.setBackgroundColor(Color.parseColor("#007bff"));
+                sendbtn.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            String items_to_send = "";
+                            for (int i = 0; i < myItems.size(); i++) {
+                                JSONObject item = new JSONObject(myItems.get(i));
+                                if (i == 0) {
+                                    items_to_send = items_to_send + item.getInt("id");
+                                } else {
+                                    items_to_send = items_to_send + "," + item.getInt("id");
+                                }
                             }
-                        }
-                        String items_to_receive = "";
-                        for(int i = 0; i < theirItems.size(); i++) {
-                            JSONObject item = new JSONObject(theirItems.get(i));
-                            if(i == 0) {
-                                items_to_receive = items_to_receive + item.getInt("id");
-                            } else {
-                                items_to_receive = items_to_receive + "," + item.getInt("id");
+                            String items_to_receive = "";
+                            for (int i = 0; i < theirItems.size(); i++) {
+                                JSONObject item = new JSONObject(theirItems.get(i));
+                                if (i == 0) {
+                                    items_to_receive = items_to_receive + item.getInt("id");
+                                } else {
+                                    items_to_receive = items_to_receive + "," + item.getInt("id");
+                                }
                             }
+                            String secret;
+                            if ((secret = FileUtils.get2FASecret(ctx)) == null) {
+                                RequestUtils.makeOffer(ctx, tradeURL, twofaField.getText().toString(), messageField.getText().toString(), items_to_send, items_to_receive);
+                            } else {
+                                try {
+                                    RequestUtils.makeOffer(ctx, tradeURL, TwoFAUtils.generateTwoFactorCode(secret), messageField.getText().toString(), items_to_send, items_to_receive);
+                                } catch (GeneralSecurityException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
-                        RequestUtils.makeOffer(ctx, tradeURL, twofaField.getText().toString(), messageField.getText().toString(), items_to_send, items_to_receive);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
+                });
+                send.addView(message);
+                if (FileUtils.get2FASecret(ctx) == null) {
+                    send.addView(twofa);
                 }
-            });
-            send.addView(message);
-            send.addView(twofa);
-            send.addView(sendbtn);
-            View sendDivider = new View(this);
-            LinearLayout.LayoutParams sendDividerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2);
-            sendDividerParams.topMargin = 20;
-            sendDividerParams.bottomMargin = 20;
-            sendDivider.setLayoutParams(sendDividerParams);
-            sendDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            layout.addView(sendDivider);
-            send.setGravity(Gravity.CENTER_HORIZONTAL);
-            layout.addView(send);
+                send.addView(sendbtn);
+            }
+            if(send != null && send.getParent() == null) {
+                View sendDivider = new View(this);
+                LinearLayout.LayoutParams sendDividerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2);
+                sendDividerParams.topMargin = 20;
+                sendDividerParams.bottomMargin = 20;
+                sendDivider.setLayoutParams(sendDividerParams);
+                sendDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                layout.addView(sendDivider);
+                send.setGravity(Gravity.CENTER_HORIZONTAL);
+                layout.addView(send);
+            }
+        }
+
+        if(myItems.size() + theirItems.size() <= 0 && send != null && send.getParent() == layout) {
+            layout.removeView(send);
         }
     }
 

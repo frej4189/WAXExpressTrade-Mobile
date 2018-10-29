@@ -1,53 +1,64 @@
 package com.jegerkatten.waxexpresstrade;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.EditText;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.Result;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.google.zxing.qrcode.QRCodeReader;
 import com.jegerkatten.waxexpresstrade.adapters.MainPagerAdapter;
 import com.jegerkatten.waxexpresstrade.utils.FileUtils;
 import com.jegerkatten.waxexpresstrade.utils.RequestUtils;
+import com.jegerkatten.waxexpresstrade.utils.TwoFAUtils;
 
-import java.util.Hashtable;
+import java.security.GeneralSecurityException;
 
-public class TradeURLActivity extends AppCompatActivity {
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+public class Setup2FAActivity extends AppCompatActivity {
 
     DrawerLayout drawer;
+    ActionBarDrawerToggle drawerToggle;
+    NavigationView drawerItems;
     final Context ctx = this;
+    final Setup2FAActivity instance = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trade_url);
+
+        setContentView(R.layout.activity_setup_2fa);
 
         Toolbar appbar = findViewById(R.id.trades_appbar);
-        appbar.setTitle(R.string.title_activity_trade_url);
+        appbar.setTitle(R.string.title_activity_setup_2fa);
         appbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
 
         setSupportActionBar(appbar);
 
         drawer = findViewById(R.id.navigation_drawer);
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawer, appbar, R.string.drawer_open_text, R.string.drawer_close_text)
+        drawerToggle = new ActionBarDrawerToggle(this, drawer, appbar, R.string.drawer_open_text, R.string.drawer_close_text)
         {
             public void onDrawerClosed(View view)
             {
@@ -62,15 +73,13 @@ public class TradeURLActivity extends AppCompatActivity {
             }
         };
         drawer.addDrawerListener(drawerToggle);
-        NavigationView drawerItems = findViewById(R.id.nav_view);
+        drawerItems = findViewById(R.id.nav_view);
         drawerItems.bringToFront();
         RequestUtils.setDrawerInfo(this, drawerItems);
         drawerItems.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.update:
-                        return true;
                     case android.R.id.home:
                         drawer.openDrawer(Gravity.START);
                         return true;
@@ -90,23 +99,16 @@ public class TradeURLActivity extends AppCompatActivity {
                         finish();
                         return true;
                     case R.id.select_trade_url:
-                        drawer.closeDrawer(Gravity.START);
+                        Intent tradeURL = new Intent(ctx, TradeURLActivity.class);
+                        startActivity(tradeURL);
+                        finish();
                         return true;
+                    case R.id.select_2fa:
+                        drawer.closeDrawer(Gravity.START);
                     case R.id.select_logout:
                         Intent logout = new Intent(ctx, LogoutActivity.class);
                         startActivity(logout);
                         finish();
-                        return true;
-                    case R.id.select_2fa:
-                        if(FileUtils.get2FASecret(ctx) == null) {
-                            Intent setup2FA = new Intent(ctx, Setup2FAActivity.class);
-                            startActivity(setup2FA);
-                            finish();
-                        } else {
-                            Intent twoFA = new Intent(ctx, TwoFAActivity.class);
-                            startActivity(twoFA);
-                            finish();
-                        }
                         return true;
                     default:
                         return false;
@@ -114,19 +116,45 @@ public class TradeURLActivity extends AppCompatActivity {
             }
         });
 
-        RequestUtils.displayTradeURL(findViewById(R.id.tradeurl_layout), this);
+        Button scanQR = findViewById(R.id.setup_2fa_button);
+        scanQR.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent scanner = new Intent(ctx, Scanner.class);
+                startActivity(scanner);
+            }
+        });
+
+        Button enterCode = findViewById(R.id.setup_2fa_secret_next);
+        enterCode.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder codeDialog = new AlertDialog.Builder(ctx);
+                codeDialog.setTitle("Enter key code");
+                final EditText input = new EditText(ctx);
+                input.setHint(R.string.setup_2fa_secret_placeholder);
+                codeDialog.setView(input);
+
+                codeDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RequestUtils.addTwoFactor(ctx, "manual", input.getText().toString());
+                    }
+                });
+                codeDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                codeDialog.show();
+            }
+        });
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.update:
-                return true;
-            case android.R.id.home:
-                drawer.openDrawer(Gravity.START);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbar, menu);
+        return true;
     }
 }

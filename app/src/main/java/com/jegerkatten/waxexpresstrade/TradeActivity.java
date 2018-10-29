@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jegerkatten.waxexpresstrade.utils.FileUtils;
 import com.jegerkatten.waxexpresstrade.utils.ImageDownloader;
 import com.jegerkatten.waxexpresstrade.utils.RequestUtils;
 
@@ -81,6 +82,7 @@ public class TradeActivity extends AppCompatActivity {
         drawer.addDrawerListener(drawerToggle);
         drawerItems = findViewById(R.id.nav_view);
         drawerItems.bringToFront();
+        RequestUtils.setDrawerInfo(this, drawerItems);
         drawerItems.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -115,6 +117,17 @@ public class TradeActivity extends AppCompatActivity {
                         startActivity(logout);
                         finish();
                         return true;
+                    case R.id.select_2fa:
+                        if(FileUtils.get2FASecret(ctx) == null) {
+                            Intent setup2FA = new Intent(ctx, Setup2FAActivity.class);
+                            startActivity(setup2FA);
+                            finish();
+                        } else {
+                            Intent twoFA = new Intent(ctx, TwoFAActivity.class);
+                            startActivity(twoFA);
+                            finish();
+                        }
+                        return true;
                     default:
                         return false;
                 }
@@ -132,11 +145,9 @@ public class TradeActivity extends AppCompatActivity {
             LinearLayout.LayoutParams statusParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             statusParams.weight = 1;
             status.setLayoutParams(statusParams);
-            status.setGravity(Gravity.CENTER_HORIZONTAL);
-            message.setGravity(Gravity.CENTER_HORIZONTAL);
             status.setText(getResources().getString(R.string.status, offer.getString("state_name")));
             LinearLayout texts = new LinearLayout(this);
-            texts.setOrientation(LinearLayout.HORIZONTAL);
+            texts.setOrientation(LinearLayout.VERTICAL);
             texts.addView(message);
             texts.addView(status);
             View divider = new View(this);
@@ -428,7 +439,7 @@ public class TradeActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(2000);
+                        this.sleep(2500);
                         startActivity(trades);
                         finish();
                     } catch(Exception e) {
