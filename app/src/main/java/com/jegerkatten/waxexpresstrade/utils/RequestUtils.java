@@ -68,7 +68,7 @@ public class RequestUtils {
     }
 
     public static int getUserID(final Context context) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context) ) {
             updateBearerForGet(context, FileUtils.getRefresh(context), "userid");
             return -1;
         } else if(uid < 0) {
@@ -116,7 +116,7 @@ public class RequestUtils {
     }
 
     public static void displayTradeURL(final View view, final Context context) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context) ) {
             updateBearerForDisplay(context, FileUtils.getRefresh(context), "tradeurl", view);
             return;
         }
@@ -323,7 +323,7 @@ public class RequestUtils {
     }
 
     public static void displayIncomingTrades(final View view, final Context context) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context) ) {
             updateBearerForDisplay(context, FileUtils.getRefresh(context), "incoming", view);
             return;
         }
@@ -457,6 +457,7 @@ public class RequestUtils {
             public void onErrorResponse(VolleyError error) {
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
+                    System.out.println("401, refreshing access token.");
                     updateBearerForDisplay(context, FileUtils.getRefresh(context), "incoming", view);
                     return;
                 } else if(error.networkResponse.statusCode == 400) {
@@ -523,7 +524,7 @@ public class RequestUtils {
     }
 
     public static void displayIncomingTradesHistory(final View view, final Context context) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context) ) {
             updateBearerForDisplay(context, FileUtils.getRefresh(context), "incominghistory", view);
             return;
         }
@@ -822,7 +823,7 @@ public class RequestUtils {
     }
 
     public static void displaySentTrades(final View view, final Context context) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context) ) {
             updateBearerForDisplay(context, FileUtils.getRefresh(context), "sent", view);
             return;
         }
@@ -1023,7 +1024,7 @@ public class RequestUtils {
     }
 
     public static void displaySentTradesHistory(final View view, final Context context) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context) ) {
             updateBearerForDisplay(context, FileUtils.getRefresh(context), "senthistory", view);
             return;
         }
@@ -1317,7 +1318,7 @@ public class RequestUtils {
     }
 
     public static void addTwoFactor(final Context context, final String user, final String secret) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context) ) {
             updateBearerForAddTwoFactor(context, FileUtils.getRefresh(context), user, secret);
             return;
         }
@@ -1426,7 +1427,7 @@ public class RequestUtils {
     }
 
     public static void setDrawerInfo(final Context context, final View view) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context)) {
             updateBearerForDrawerInfo(context, FileUtils.getRefresh(context), view);
             return;
         }
@@ -2016,7 +2017,7 @@ public class RequestUtils {
     }
 
     public static void displayItemPick(final LinearLayout view, final Context context, final String app_id, final String uid, final ArrayList<String> exclude) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context) ) {
             updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id, uid, exclude);
             return;
         }
@@ -2232,21 +2233,28 @@ public class RequestUtils {
         String url = "https://oauth.opskins.com/v1/access_token/";
 
         refreshProgress = true;
+        final String prefix = "Bearer Update: ";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
+                    System.out.println(prefix + "Retrieving response");
                     JSONObject json = new JSONObject(response);
-
+                    System.out.println(prefix + "Parsed json.");
                     String access = json.getString("access_token");
+                    System.out.println(prefix + "Retrieved access token: " + access);
                     String expires = (json.has("expires_in") ? Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis()) : Long.toString(System.currentTimeMillis()));
+                    System.out.println(prefix + "Retrieved expiry: " + expires);
 
                     String data = access + "\n" + expires + "\n" + (json.has("refresh_token") ? json.getString("refresh_token") : refresh);
+                    System.out.println(prefix + "Created data string: " + data);
 
                     String file = "access.txt";
                     FileUtils.writeData(context, file, data);
+                    System.out.println(prefix + "Data has been written.");
                     if(type.equals("incoming")) {
+                        System.out.println(prefix + "Calling action.");
                         displayIncomingTrades(view, context);
                     } else if(type.equals("sent")) {
                         displaySentTrades(view, context);
@@ -2266,6 +2274,8 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.out.println(prefix + "Failed.");
+                System.out.println(prefix + error.networkResponse.data);
                 if(error.networkResponse.statusCode == 401) {
                     //Not logged in, or invalid refresh token, either way, make the user re-log.
                     FileUtils.writeData(context, "access.txt", "", true);
@@ -2352,7 +2362,7 @@ public class RequestUtils {
     }
 
     public static void makeOffer(final Context context, final String tradeURL, final String two_factor_code, final String message, final String items_to_send, final String items_to_receive) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context) ) {
             updateBearerForMakeOffer(context, FileUtils.getRefresh(context), tradeURL, two_factor_code, message, items_to_send, items_to_receive);
             return;
         }
@@ -2558,7 +2568,7 @@ public class RequestUtils {
     }
 
     public static void acceptOffer(final Context context, final int offerid, final String two_factor_code) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context) ) {
             updateBearerForAcceptOffer(context, FileUtils.getRefresh(context), offerid, two_factor_code);
             return;
         }
@@ -2851,7 +2861,7 @@ public class RequestUtils {
     }
 
     public static void cancelOffer(final Context context, final int offerid, final boolean cancel) {
-        if(FileUtils.refreshNeeded(context) && !refreshProgress) {
+        if(FileUtils.refreshNeeded(context) ) {
             updateBearerForCancelOffer(context, FileUtils.getRefresh(context), offerid, cancel);
             return;
         }

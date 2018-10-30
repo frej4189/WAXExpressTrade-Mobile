@@ -81,8 +81,8 @@ public class FileUtils {
             while((line = br.readLine()) != null) {
                 lines++;
                 if(lines == 2) {
-                    if(System.currentTimeMillis() >= Long.valueOf(line)) {
-                        refreshNeeded = true;
+                    if(Long.valueOf(line) - System.currentTimeMillis() <= 0) {
+                        return true;
                     }
                 }
             }
