@@ -1,58 +1,61 @@
 package com.jegerkatten.waxexpresstrade;
 
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Toast;
 
-import com.google.zxing.Result;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-import com.google.zxing.qrcode.QRCodeReader;
-import com.jegerkatten.waxexpresstrade.adapters.MainPagerAdapter;
+import com.jegerkatten.waxexpresstrade.adapters.InventoryPagerAdapter;
+import com.jegerkatten.waxexpresstrade.adapters.SelectItemsPagerAdapter;
 import com.jegerkatten.waxexpresstrade.utils.FileUtils;
 import com.jegerkatten.waxexpresstrade.utils.RequestUtils;
-import com.jegerkatten.waxexpresstrade.utils.TwoFAUtils;
 
-import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
-public class Setup2FAActivity extends AppCompatActivity {
+public class InventoryActivity extends AppCompatActivity {
 
     DrawerLayout drawer;
     ActionBarDrawerToggle drawerToggle;
     NavigationView drawerItems;
-    final Context ctx = this;
-    final Setup2FAActivity instance = this;
+    private final Context ctx = this;
+
+    private String uid = "-1";
+
+    private InventoryPagerAdapter adapter;
+    private SparseArray<InventoryActivity.RefreshListener> refreshers = null;
+    private ArrayList<String> items;
+
+    public InventoryActivity.RefreshListener getRefreshListener(int appid) {
+        return refreshers.get(appid);
+    }
+
+    public void addRefreshListener(int appid, InventoryActivity.RefreshListener refreshListener) {
+        if(refreshers == null) {
+            refreshers = new SparseArray<InventoryActivity.RefreshListener>();
+        }
+        refreshers.put(appid, refreshListener);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_inventory);
 
-        setContentView(R.layout.activity_setup_2fa);
-
-        Toolbar appbar = findViewById(R.id.trades_appbar);
-        appbar.setTitle(R.string.title_activity_setup_2fa);
+        Toolbar appbar = findViewById(R.id.inventory_appbar);
+        appbar.setTitle(R.string.title_activity_inventory);
         appbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
 
         setSupportActionBar(appbar);
@@ -80,6 +83,8 @@ public class Setup2FAActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.update:
+                        return true;
                     case android.R.id.home:
                         drawer.openDrawer(Gravity.START);
                         return true;
@@ -99,9 +104,7 @@ public class Setup2FAActivity extends AppCompatActivity {
                         finish();
                         return true;
                     case R.id.select_inventory:
-                        Intent inventory = new Intent(ctx, InventoryActivity.class);
-                        startActivity(inventory);
-                        finish();
+                        drawer.closeDrawer(Gravity.START);
                         return true;
                     case R.id.select_trade_url:
                         Intent tradeURL = new Intent(ctx, TradeURLActivity.class);
@@ -109,7 +112,16 @@ public class Setup2FAActivity extends AppCompatActivity {
                         finish();
                         return true;
                     case R.id.select_2fa:
-                        drawer.closeDrawer(Gravity.START);
+                        if(FileUtils.get2FASecret(ctx) == null) {
+                            Intent setup2FA = new Intent(ctx, Setup2FAActivity.class);
+                            startActivity(setup2FA);
+                            finish();
+                        } else {
+                            Intent twoFA = new Intent(ctx, TwoFAActivity.class);
+                            startActivity(twoFA);
+                            finish();
+                        }
+                        return true;
                     case R.id.select_logout:
                         Intent logout = new Intent(ctx, LogoutActivity.class);
                         startActivity(logout);
@@ -121,45 +133,52 @@ public class Setup2FAActivity extends AppCompatActivity {
             }
         });
 
-        Button scanQR = findViewById(R.id.setup_2fa_button);
-        scanQR.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent scanner = new Intent(ctx, Scanner.class);
-                startActivity(scanner);
-            }
-        });
+        adapter = new InventoryPagerAdapter(getSupportFragmentManager());
+        adapter.setCaller(this);
+        RequestUtils.updateApps(this, adapter);
+    }
 
-        Button enterCode = findViewById(R.id.setup_2fa_secret_next);
-        enterCode.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder codeDialog = new AlertDialog.Builder(ctx);
-                codeDialog.setTitle("Enter key code");
-                final EditText input = new EditText(ctx);
-                input.setHint(R.string.setup_2fa_secret_placeholder);
-                codeDialog.setView(input);
+    public void update() {
+        ViewPager pager = findViewById(R.id.pager_inventory);
+        pager.setAdapter(adapter);
+        TabLayout tabs = findViewById(R.id.tabs_inventory);
+        tabs.setupWithViewPager(pager);
+    }
 
-                codeDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        RequestUtils.addTwoFactor(ctx, "manual", input.getText().toString());
-                    }
-                });
-                codeDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                codeDialog.show();
-            }
-        });
+    public interface RefreshListener {
+        void onRefresh();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.update:
+                if(refreshers != null) {
+                    for(int i = 0; i < refreshers.size(); i++) {
+                        refreshers.get(refreshers.keyAt(i)).onRefresh();
+                    }
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public ArrayList<String> getExclude() {
+        return items;
+    }
+
+    public String getUID() {
+        return uid;
+    }
+
+    public InventoryPagerAdapter getAdapter() {
+        return adapter;
     }
 }

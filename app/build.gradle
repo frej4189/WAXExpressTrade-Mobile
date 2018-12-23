@@ -6,8 +6,8 @@ android {
         applicationId "com.jegerkatten.waxexpresstrade"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 11
-        versionName "1.8.9"
+        versionCode 12
+        versionName "1.9.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -89,6 +89,11 @@ public class TradeURLActivity extends AppCompatActivity {
                         startActivity(sendTrade);
                         finish();
                         return true;
+                    case R.id.select_inventory:
+                        Intent inventory = new Intent(ctx, InventoryActivity.class);
+                        startActivity(inventory);
+                        finish();
+                        return true;
                     case R.id.select_trade_url:
                         drawer.closeDrawer(Gravity.START);
                         return true;

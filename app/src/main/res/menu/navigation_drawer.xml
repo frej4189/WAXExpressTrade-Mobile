@@ -19,6 +19,11 @@
             android:title="@string/title_activity_send_trade"
             app:showAsAction="withText" />
         <item
+            android:id="@+id/select_inventory"
+            android:checkable="false"
+            android:title="@string/title_activity_inventory"
+            app:showAsAction="withText" />
+        <item
             android:id="@+id/select_trade_url"
             android:checkable="false"
             android:title="@string/title_activity_trade_url"

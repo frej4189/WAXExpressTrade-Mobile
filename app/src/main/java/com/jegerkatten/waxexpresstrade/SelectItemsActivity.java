@@ -140,7 +140,7 @@ public class SelectItemsActivity extends AppCompatActivity {
             case R.id.update:
                 if(refreshers != null) {
                     for(int i = 0; i < refreshers.size(); i++) {
-                        refreshers.get(i).onRefresh();
+                        refreshers.get(refreshers.keyAt(i)).onRefresh();
                     }
                 }
                 return true;

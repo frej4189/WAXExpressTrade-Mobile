@@ -8,6 +8,7 @@
     <string name="title_activity_trades">Trades</string>
     <string name="title_activity_trade_history">Trade history</string>
     <string name="title_activity_send_trade">Send trade</string>
+    <string name="title_activity_inventory">Inventory</string>
     <string name="title_activity_trade_url">Trade URL</string>
     <string name="title_activity_logout">Log out</string>
     <string name="title_activity_select_items">Select items</string>

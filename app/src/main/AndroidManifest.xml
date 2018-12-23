@@ -95,11 +95,14 @@
             android:theme="@style/Theme.AppCompat.Dialog.Alert" />
         <activity
             android:name=".Setup2FAActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".TwoFAActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".Scanner"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TwoFAActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Scanner"
+            android:screenOrientation="portrait" />
+        <activity android:name=".InventoryActivity"></activity>
     </application>
 
 </manifest>

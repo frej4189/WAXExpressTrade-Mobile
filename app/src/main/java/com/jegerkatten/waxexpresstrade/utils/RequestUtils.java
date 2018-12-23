@@ -35,8 +35,10 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.jegerkatten.waxexpresstrade.ItemActivity;
 import com.jegerkatten.waxexpresstrade.MainActivity;
+import com.jegerkatten.waxexpresstrade.PreviewItemActivity;
 import com.jegerkatten.waxexpresstrade.R;
 import com.jegerkatten.waxexpresstrade.TradeActivity;
+import com.jegerkatten.waxexpresstrade.adapters.InventoryPagerAdapter;
 import com.jegerkatten.waxexpresstrade.adapters.SelectItemsPagerAdapter;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
@@ -103,6 +105,26 @@ public class RequestUtils {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    if(error == null) {
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getUserID(context);
+                            }
+                        }, 1000);
+                        return;
+                    }
+                    if(error.networkResponse == null) {
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getUserID(context);
+                            }
+                        }, 1000);
+                        return;
+                    }
                     //TODO: Redirect to error activity
                     if(error.networkResponse.statusCode == 401) {
                         updateBearerForGet(context, FileUtils.getRefresh(context), "userid");
@@ -213,6 +235,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayTradeURL(view, context);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayTradeURL(view, context);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForDisplay(context, FileUtils.getRefresh(context), "tradeurl", view);
@@ -410,6 +452,26 @@ public class RequestUtils {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                if(error == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayIncomingTrades(view, context);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
+                                if(error.networkResponse == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayIncomingTrades(view, context);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
                                 //TODO: Redirect to error activity
                                 if(error.networkResponse.statusCode == 401) {
                                     updateBearerForDisplay(context, FileUtils.getRefresh(context), "incoming", view);
@@ -485,6 +547,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayIncomingTrades(view, context);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayIncomingTrades(view, context);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForDisplay(context, FileUtils.getRefresh(context), "incoming", view);
@@ -619,6 +701,26 @@ public class RequestUtils {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                if(error == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayIncomingTradesHistory(view, context);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
+                                if(error.networkResponse == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayIncomingTradesHistory(view, context);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
                                 //TODO: Redirect to error activity
                                 if(error.networkResponse.statusCode == 401) {
                                     updateBearerForDisplay(context, FileUtils.getRefresh(context), "incominghistory", view);
@@ -693,6 +795,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayIncomingTradesHistory(view, context);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayIncomingTradesHistory(view, context);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForDisplay(context, FileUtils.getRefresh(context), "incoming", view);
@@ -927,6 +1049,26 @@ public class RequestUtils {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                if(error == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displaySentTrades(view, context);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
+                                if(error.networkResponse == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displaySentTrades(view, context);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
                                 //TODO: Redirect to error activity
                                 if(error.networkResponse.statusCode == 401) {
                                     updateBearerForDisplay(context, FileUtils.getRefresh(context), "sent", view);
@@ -1002,6 +1144,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displaySentTrades(view, context);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displaySentTrades(view, context);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForDisplay(context, FileUtils.getRefresh(context), "sent", view);
@@ -1137,6 +1299,26 @@ public class RequestUtils {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                if(error == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displaySentTradesHistory(view, context);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
+                                if(error.networkResponse == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displaySentTradesHistory(view, context);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
                                 //TODO: Redirect to error activity
                                 if(error.networkResponse.statusCode == 401) {
                                     updateBearerForDisplay(context, FileUtils.getRefresh(context), "senthistory", view);
@@ -1212,6 +1394,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displaySentTradesHistory(view, context);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displaySentTradesHistory(view, context);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForDisplay(context, FileUtils.getRefresh(context), "sent", view);
@@ -1313,6 +1515,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayInformation(view, context, uid, placeholder, items);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayInformation(view, context, uid, placeholder, items);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     //wat
@@ -1421,6 +1643,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addTwoFactor(context, user, secret);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addTwoFactor(context, user, secret);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForAddTwoFactor(context, FileUtils.getRefresh(context), user, secret);
@@ -1530,6 +1772,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            setDrawerInfo(context, view);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            setDrawerInfo(context, view);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForDrawerInfo(context, FileUtils.getRefresh(context), view);
@@ -1696,6 +1958,542 @@ public class RequestUtils {
         }
     }
 
+    static void displayItems(final LinearLayout view, final JSONArray items) throws JSONException {
+        final Context ctx = view.getContext();
+        int count = 0;
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((Activity)ctx).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int maxItems = ((int) Math.floor(metrics.widthPixels / 122));
+        LinearLayout current = new LinearLayout(ctx);
+        current.setOrientation(LinearLayout.HORIZONTAL);
+        if(items.length() > 0) {
+            for (int i = 0; i < items.length(); i++) {
+                View itemDivider = new View(ctx);
+                LinearLayout.LayoutParams itemDividerParams = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
+                itemDividerParams.leftMargin = 10;
+                itemDividerParams.rightMargin = 10;
+                itemDivider.setLayoutParams(itemDividerParams);
+                itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+                final JSONObject item = items.getJSONObject(i);
+
+                ImageView img = new ImageView(ctx);
+                new ImageDownloader(img, 100, 100).execute(item.getJSONObject("image").getString("300px"));
+                img.setOnClickListener(new ImageView.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent itemIntent = new Intent(ctx, PreviewItemActivity.class);
+                        itemIntent.putExtra("item", item.toString());
+                        ctx.startActivity(itemIntent);
+                    }
+                });
+
+                count++;
+                if (++count > maxItems) {
+                    count--;
+                    current.addView(itemDivider);
+                    view.addView(current);
+                    current = new LinearLayout(ctx);
+                    current.setOrientation(LinearLayout.HORIZONTAL);
+                    itemDivider = new View(ctx);
+                    itemDivider.setLayoutParams(itemDividerParams);
+                    itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    current.addView(itemDivider);
+                    current.addView(img);
+                    View lineDivider = new View(ctx);
+                    LinearLayout.LayoutParams lineDividerParams = new LinearLayout.LayoutParams(count * 122 + 12, 2);
+                    lineDividerParams.topMargin = 10;
+                    lineDividerParams.leftMargin = 5;
+                    lineDividerParams.bottomMargin = 10;
+                    lineDivider.setLayoutParams(lineDividerParams);
+                    lineDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    view.addView(lineDivider);
+                    count = 1;
+                } else {
+                    current.addView(itemDivider);
+                    current.addView(img);
+                }
+            }
+            View itemDivider = new View(ctx);
+            LinearLayout.LayoutParams itemDividerParams = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
+            itemDividerParams.leftMargin = 10;
+            itemDividerParams.rightMargin = 10;
+            itemDivider.setLayoutParams(itemDividerParams);
+            itemDivider.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            current.addView(itemDivider);
+            view.addView(current);
+        } else {
+            TextView noItems = new TextView(ctx);
+            noItems.setText(R.string.no_items);
+            noItems.setGravity(Gravity.CENTER);
+            view.addView(noItems);
+        }
+    }
+
+    public static void displayItems(final LinearLayout view, final Context context, final String app_id) {
+        String url = "https://api-trade.opskins.com/IUser/GetInventory/v1?sort=2&per_page=500&app_id=" + app_id;
+
+        final JSONArray items = new JSONArray();
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    JSONObject res = json.getJSONObject("response");
+
+                    JSONArray ites = res.getJSONArray("items");
+                    final JSONObject inOffer = res.getJSONObject("items_in_active_offers");
+
+                    int total = res.getInt("total");
+                    final double remaining = total - 500;
+
+                    for(int k = 0; k < ites.length(); k++) {
+                        JSONObject item = ites.getJSONObject(k);
+                        boolean offer = false;
+                        if(inOffer.has(Integer.toString(item.getInt("id")))) {
+                            offer = true;
+                        }
+                        item.put("in_offer", offer);
+                        items.put(item);
+                    }
+
+                    if(remaining <= 0) {
+                        String uri = "https://api-trade.opskins.com/IUser/GetProfile/v1/";
+                        StringRequest req = new StringRequest(Request.Method.GET, uri, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject json = new JSONObject(response);
+                                    JSONObject res = json.getJSONObject("response");
+
+                                    displayItems(view, items);
+                                } catch(Exception e) {
+                                    //TODO: Redirect to error activity
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                if(error == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayItems(view, context, app_id);
+                                        }
+                                    }, 5000);
+                                    return;
+                                }
+                                if(error.networkResponse == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayItems(view, context, app_id);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
+                                if(error.networkResponse.statusCode == 401) {
+                                    updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id);
+                                    return;
+                                } else if(error.networkResponse.statusCode == 400) {
+                                    try {
+                                        JSONObject json = new JSONObject(new String(error.networkResponse.data));
+                                        if(json.getString("error").equals("invalid_grant")) {
+                                            FileUtils.writeData(context, "access.txt", "", true);
+                                            return;
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                                try {
+                                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    this.sleep(2500);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                        return;
+                                    } else if(errorResponse.has("message")) {
+                                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    this.sleep(2500);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                Intent intent = new Intent(context, MainActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }) {
+                            @Override
+                            public Map<String, String> getHeaders() {
+                                HashMap<String, String> headers = new HashMap<String, String>();
+
+                                headers.put("Authorization", "Bearer " + FileUtils.getBearer(context));
+                                return headers;
+                            }
+                        };
+                        Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(req);
+                        return;
+                    }
+
+                    final int max = (int)Math.ceil(remaining / 500);
+
+                    for(int i = 0; i < Math.ceil(remaining / 500); i++) {
+                        final int j = i + 2;
+                        final int current = i + 1;
+                        String url = "https://api-trade.opskins.com/IUser/GetInventory/v1?sort=2&per_page=500&app_id=" + app_id + "&page=" + j;
+                        StringRequest req = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject json = new JSONObject(response);
+
+                                    JSONArray its = json.getJSONObject("response").getJSONArray("items");
+
+                                    for(int k = 0; k < its.length(); k++) {
+                                        JSONObject item = its.getJSONObject(k);
+                                        boolean offer = false;
+                                        if(inOffer.has(Integer.toString(item.getInt("id")))) {
+                                            offer = true;
+                                        }
+                                        item.put("in_offer", offer);
+                                        items.put(item);
+                                    }
+
+                                    if(current == max) {
+                                        String uri = "https://api-trade.opskins.com/IUser/GetProfile/v1/";
+                                        StringRequest req = new StringRequest(Request.Method.GET, uri, new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                try {
+                                                    JSONObject json = new JSONObject(response);
+                                                    JSONObject res = json.getJSONObject("response");
+                                                    JSONObject user = res.getJSONObject("user");
+                                                    user.put("username", user.getString("display_name"));
+
+                                                    displayItems(view, items);
+                                                } catch(Exception e) {
+                                                    //TODO: Redirect to error activity
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                if(error == null) {
+                                                    final Handler handler = new Handler();
+                                                    handler.postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            displayItems(view, context, app_id);
+                                                        }
+                                                    }, 1000);
+                                                    return;
+                                                }
+                                                if(error.networkResponse == null) {
+                                                    final Handler handler = new Handler();
+                                                    handler.postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            displayItems(view, context, app_id);
+                                                        }
+                                                    }, 1000);
+                                                    return;
+                                                }
+                                                //TODO: Redirect to error activity
+                                                if(error.networkResponse.statusCode == 401) {
+                                                    updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id);
+                                                    return;
+                                                } else if(error.networkResponse.statusCode == 400) {
+                                                    try {
+                                                        JSONObject json = new JSONObject(new String(error.networkResponse.data));
+                                                        if(json.getString("error").equals("invalid_grant")) {
+                                                            FileUtils.writeData(context, "access.txt", "", true);
+                                                            return;
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                }
+                                                try {
+                                                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                                                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                                                        new Thread() {
+                                                            @Override
+                                                            public void run() {
+                                                                try {
+                                                                    this.sleep(2500);
+                                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                                    context.startActivity(trades);
+                                                                } catch(Exception e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                        }.start();
+                                                        return;
+                                                    } else if(errorResponse.has("message")) {
+                                                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                                        new Thread() {
+                                                            @Override
+                                                            public void run() {
+                                                                try {
+                                                                    this.sleep(2500);
+                                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                                    context.startActivity(trades);
+                                                                } catch(Exception e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                        }.start();
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                } catch (UnsupportedEncodingException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                Intent intent = new Intent(context, MainActivity.class);
+                                                context.startActivity(intent);
+                                            }
+                                        }) {
+                                            @Override
+                                            public Map<String, String> getHeaders() {
+                                                HashMap<String, String> headers = new HashMap<String, String>();
+
+                                                headers.put("Authorization", "Bearer " + FileUtils.getBearer(context));
+                                                return headers;
+                                            }
+                                        };
+                                        Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(req);
+                                        return;
+                                    }
+                                } catch(Exception e) {
+                                    //TODO: Redirect to error activity
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                if(error == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayItems(view, context, app_id);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
+                                if(error.networkResponse == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayItems(view, context, app_id);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
+                                //TODO: Redirect to error activity
+                                if(error.networkResponse.statusCode == 401) {
+                                    updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id);
+                                    return;
+                                } else if(error.networkResponse.statusCode == 400) {
+                                    try {
+                                        JSONObject json = new JSONObject(new String(error.networkResponse.data));
+                                        if(json.getString("error").equals("invalid_grant")) {
+                                            FileUtils.writeData(context, "access.txt", "", true);
+                                            return;
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                                try {
+                                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    this.sleep(2500);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                        return;
+                                    } else if(errorResponse.has("message")) {
+                                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    this.sleep(2500);
+                                                    Intent trades = new Intent(context, MainActivity.class);
+                                                    context.startActivity(trades);
+                                                } catch(Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                Intent intent = new Intent(context, MainActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }) {
+                            @Override
+                            public Map<String, String> getHeaders() {
+                                HashMap<String, String> headers = new HashMap<String, String>();
+
+                                headers.put("Authorization", "Bearer " + FileUtils.getBearer(context));
+                                return headers;
+                            }
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("per_page", "500");
+                                params.put("sort", "2");
+                                params.put("page", Integer.toString(j));
+                                return params;
+                            }
+                        };
+                        Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(req);
+                    }
+                } catch(Exception e) {
+                    //TODO: Redirect to error activity
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayItems(view, context, app_id);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayItems(view, context, app_id);
+                        }
+                    }, 1000);
+                    return;
+                }
+                //TODO: Redirect to error activity
+                if(error.networkResponse.statusCode == 401) {
+                    updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id);
+                    return;
+                } else if(error.networkResponse.statusCode == 400) {
+                    try {
+                        JSONObject json = new JSONObject(new String(error.networkResponse.data));
+                        if(json.getString("error").equals("invalid_grant")) {
+                            FileUtils.writeData(context, "access.txt", "", true);
+                            return;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    this.sleep(2500);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    this.sleep(2500);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+
+                headers.put("Authorization", "Bearer " + FileUtils.getBearer(context));
+                return headers;
+            }
+        };
+        Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
+    }
+
     public static void displayItemPick(final LinearLayout view, final Context context, final String app_id, final ArrayList<String> exclude) {
         String url = "https://api-trade.opskins.com/IUser/GetInventory/v1?sort=2&per_page=500&app_id=" + app_id;
 
@@ -1747,6 +2545,26 @@ public class RequestUtils {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                if(error == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayItemPick(view, context, app_id, exclude);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
+                                if(error.networkResponse == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayItemPick(view, context, app_id, exclude);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
                                 //TODO: Redirect to error activity
                                 if(error.networkResponse.statusCode == 401) {
                                     updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id, Integer.toString(getUserID(context)), exclude);
@@ -1863,6 +2681,26 @@ public class RequestUtils {
                                         }, new Response.ErrorListener() {
                                             @Override
                                             public void onErrorResponse(VolleyError error) {
+                                                if(error == null) {
+                                                    final Handler handler = new Handler();
+                                                    handler.postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            displayItemPick(view, context, app_id, exclude);
+                                                        }
+                                                    }, 1000);
+                                                    return;
+                                                }
+                                                if(error.networkResponse == null) {
+                                                    final Handler handler = new Handler();
+                                                    handler.postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            displayItemPick(view, context, app_id, exclude);
+                                                        }
+                                                    }, 1000);
+                                                    return;
+                                                }
                                                 //TODO: Redirect to error activity
                                                 if(error.networkResponse.statusCode == 401) {
                                                     updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id, Integer.toString(getUserID(context)), exclude);
@@ -1939,6 +2777,26 @@ public class RequestUtils {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                if(error == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayItemPick(view, context, app_id, exclude);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
+                                if(error.networkResponse == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayItemPick(view, context, app_id, exclude);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
                                 //TODO: Redirect to error activity
                                 if(error.networkResponse.statusCode == 401) {
                                     updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id, Integer.toString(getUserID(context)), exclude);
@@ -2022,6 +2880,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayItemPick(view, context, app_id, exclude);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayItemPick(view, context, app_id, exclude);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id, Integer.toString(getUserID(context)), exclude);
@@ -2169,6 +3047,26 @@ public class RequestUtils {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                if(error == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayItemPick(view, context, app_id, uid, exclude);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
+                                if(error.networkResponse == null) {
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            displayItemPick(view, context, app_id, uid, exclude);
+                                        }
+                                    }, 1000);
+                                    return;
+                                }
                                 //TODO: Redirect to error activity
                                 if(error.networkResponse.statusCode == 401) {
                                     updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id, uid, exclude);
@@ -2244,6 +3142,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayItemPick(view, context, app_id, uid, exclude);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayItemPick(view, context, app_id, uid, exclude);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForDisplay(context, FileUtils.getRefresh(context), view, app_id, uid, exclude);
@@ -2348,6 +3266,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForDisplay(context, refresh, type, view);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForDisplay(context, refresh, type, view);
+                        }
+                    }, 1000);
+                    return;
+                }
                 if(error.networkResponse.statusCode == 401) {
                     //Not logged in, or invalid refresh token, either way, make the user re-log.
                     FileUtils.writeData(context, "access.txt", "", true);
@@ -2500,6 +3438,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            makeOffer(context, tradeURL, two_factor_code, message, items_to_send, items_to_receive);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            makeOffer(context, tradeURL, two_factor_code, message, items_to_send, items_to_receive);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForMakeOffer(context, FileUtils.getRefresh(context), tradeURL, two_factor_code, message, items_to_send, items_to_receive);
@@ -2595,6 +3553,116 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateApps(context, adapter);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateApps(context, adapter);
+                        }
+                    }, 1000);
+                    return;
+                }
+                //TODO: Redirect to error activity
+                try {
+                    JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                    if(errorResponse.has("status") && errorResponse.getInt("status") == 312) {
+                        Toast.makeText(context, "An identical offer already exists.", Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    this.sleep(2500);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                        return;
+                    } else if(errorResponse.has("message")) {
+                        Toast.makeText(context, errorResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    this.sleep(2500);
+                                    Intent trades = new Intent(context, MainActivity.class);
+                                    context.startActivity(trades);
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+
+                headers.put("Authorization", "Bearer " + FileUtils.getBearer(context));
+                return headers;
+            }
+        };
+        Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
+    }
+
+    public static void updateApps(final Context context, final InventoryPagerAdapter adapter) {
+        final String url = "https://api-trade.opskins.com/ITrade/GetApps/v1/";
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject res = new JSONObject(response).getJSONObject("response");
+                    JSONArray apps = res.getJSONArray("apps");
+                    adapter.setApps(apps);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateApps(context, adapter);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateApps(context, adapter);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 try {
                     JSONObject errorResponse = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
@@ -2723,6 +3791,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            acceptOffer(context, offerid, two_factor_code);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            acceptOffer(context, offerid, two_factor_code);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForAcceptOffer(context, FileUtils.getRefresh(context), offerid, two_factor_code);
@@ -2826,6 +3914,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForAcceptOffer(context, refresh, offerid, two_factor_code);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForAcceptOffer(context, refresh, offerid, two_factor_code);
+                        }
+                    }, 1000);
+                    return;
+                }
                 if(error.networkResponse.statusCode == 401) {
                     //Not logged in, or invalid refresh token, either way, make the user re-log.
                     FileUtils.writeData(context, "access.txt", "", true);
@@ -2902,6 +4010,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForDrawerInfo(context, refresh, view);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForDrawerInfo(context, refresh, view);
+                        }
+                    }, 1000);
+                    return;
+                }
                 if(error.networkResponse.statusCode == 401) {
                     //Not logged in, or invalid refresh token, either way, make the user re-log.
                     FileUtils.writeData(context, "access.txt", "", true);
@@ -2988,6 +4116,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            cancelOffer(context, offerid, cancel);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            cancelOffer(context, offerid, cancel);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     updateBearerForCancelOffer(context, FileUtils.getRefresh(context), offerid, cancel);
@@ -3090,6 +4238,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForCancelOffer(context, refresh, offerid, cancel);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForCancelOffer(context, refresh, offerid, cancel);
+                        }
+                    }, 1000);
+                    return;
+                }
                 if(error.networkResponse.statusCode == 401) {
                     //Not logged in, or invalid refresh token, either way, make the user re-log.
                     FileUtils.writeData(context, "access.txt", "", true);
@@ -3166,6 +4334,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForMakeOffer(context, refresh, tradeURL, two_factor_code, message, items_to_send, items_to_receive);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForMakeOffer(context, refresh, tradeURL, two_factor_code, message, items_to_send, items_to_receive);
+                        }
+                    }, 1000);
+                    return;
+                }
                 if(error.networkResponse.statusCode == 401) {
                     //Not logged in, or invalid refresh token, either way, make the user re-log.
                     FileUtils.writeData(context, "access.txt", "", true);
@@ -3242,6 +4430,122 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForDisplay(context, refresh, view, app_id, uid, exclude);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForDisplay(context, refresh, view, app_id, uid, exclude);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse.statusCode == 401) {
+                    //Not logged in, or invalid refresh token, either way, make the user re-log.
+                    FileUtils.writeData(context, "access.txt", "", true);
+                    return;
+                } else if(error.networkResponse.statusCode == 400) {
+                    try {
+                        JSONObject json = new JSONObject(new String(error.networkResponse.data));
+                        if(json.getString("error").equals("invalid_grant")) {
+                            FileUtils.writeData(context, "access.txt", "", true);
+                            return;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                String key = "2f2856914a25:" + FileUtils.getState(context);
+                String hash;
+                try {
+                    hash = Base64.encodeToString(key.getBytes(), Base64.DEFAULT);
+                } catch(Exception e) {
+                    //TODO: Redirect to error activity
+                    e.printStackTrace();
+                    return null;
+                }
+
+                headers.put("authorization", "Basic " + hash);
+                return headers;
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("grant_type", "refresh_token");
+                params.put("refresh_token", refresh);
+                params.put("state", FileUtils.getState(context));
+                return params;
+            }
+        };
+        Singleton.getInstance(context.getApplicationContext()).addToRequestQueue(request);
+    }
+
+    static void updateBearerForDisplay(final Context context, final String refresh, final LinearLayout view, final String app_id) {
+        String url = "https://oauth.opskins.com/v1/access_token/";
+
+        refreshProgress = true;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject json = new JSONObject(response);
+
+                    String access = json.getString("access_token");
+                    String expires = (json.has("expires_in") ? Long.toString(Long.valueOf(Integer.toString(json.getInt("expires_in") * 1000)) + System.currentTimeMillis()) : Long.toString(System.currentTimeMillis()));
+
+                    String data = access + "\n" + expires + "\n" + (json.has("refresh_token") ? json.getString("refresh_token") : refresh);
+
+                    String file = "access.txt";
+                    FileUtils.writeData(context, file, data);
+                    displayItems(view, context, app_id);
+                    refreshProgress = false;
+                } catch(Exception e) {
+                    //TODO: Redirect to error activity
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForDisplay(context, refresh, view, app_id);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForDisplay(context, refresh, view, app_id);
+                        }
+                    }, 1000);
+                    return;
+                }
                 if(error.networkResponse.statusCode == 401) {
                     //Not logged in, or invalid refresh token, either way, make the user re-log.
                     FileUtils.writeData(context, "access.txt", "", true);
@@ -3323,6 +4627,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForAddTwoFactor(context, refresh, user, secret);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForAddTwoFactor(context, refresh, user, secret);
+                        }
+                    }, 1000);
+                    return;
+                }
                 if(error.networkResponse.statusCode == 401) {
                     //Not logged in, or invalid refresh token, either way, make the user re-log.
                     FileUtils.writeData(context, "access.txt", "", true);
@@ -3406,6 +4730,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForGet(context, refresh, type);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBearerForGet(context, refresh, type);
+                        }
+                    }, 1000);
+                    return;
+                }
                 if(error.networkResponse.statusCode == 401) {
                     //Not logged in, or invalid refresh token, either way, make the user re-log.
                     FileUtils.writeData(context, "access.txt", "", true);
@@ -3480,6 +4824,26 @@ public class RequestUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            logout(context, activity);
+                        }
+                    }, 1000);
+                    return;
+                }
+                if(error.networkResponse == null) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            logout(context, activity);
+                        }
+                    }, 1000);
+                    return;
+                }
                 //TODO: Redirect to error activity
                 if(error.networkResponse.statusCode == 401) {
                     FileUtils.writeData(context, "access.txt", "", true);

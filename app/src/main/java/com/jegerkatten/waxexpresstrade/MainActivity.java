@@ -110,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(sendTrade);
                         finish();
                         return true;
+                    case R.id.select_inventory:
+                        Intent inventory = new Intent(ctx, InventoryActivity.class);
+                        startActivity(inventory);
+                        finish();
+                        return true;
                     case R.id.select_trade_url:
                         Intent tradeURL = new Intent(ctx, TradeURLActivity.class);
                         startActivity(tradeURL);
